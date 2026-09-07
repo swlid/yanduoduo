@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="card hero" wx:if="{{timeline}}">
+    <view class="stage">当前阶段：{{timeline.stage}}</view>
+    <view class="countdown" wx:if="{{timeline.exam_countdown != null}}">距初试还有 {{timeline.exam_countdown}} 天</view>
+    <view class="next" wx:if="{{timeline.next_node}}">
+      下一个节点：{{timeline.next_node.name}}（{{timeline.next_node.days_left}} 天后）
+    </view>
+  </view>
+
+  <view class="card section" wx:if="{{timeline && timeline.stage_tasks.length}}">
+    <view class="section-title">{{timeline.stage}}默认任务</view>
+    <view class="task" wx:for="{{timeline.stage_tasks}}" wx:key="id">
+      <text class="subject">{{item.subject}}</text>
+      <text class="title">{{item.title}}</text>
+      <text class="muted">{{item.default_minutes}} 分钟</text>
+    </view>
+  </view>
+
+  <view class="card section">
+    <view class="section-title">近期关键节点</view>
+    <view class="node" wx:for="{{timeline.upcoming_nodes}}" wx:key="id">
+      <view class="node-head">
+        <text class="node-name">{{item.name}}</text>
+        <button class="mini-btn" data-id="{{item.id}}" loading="{{subscribingId == item.id}}" bindtap="subscribe">订阅</button>
+      </view>
+      <view class="muted">{{item.actual_date}} · 剩余 {{item.days_left}} 天</view>
+      <view class="guide">{{item.guide}}</view>
+    </view>
+  </view>
+
+  <view class="empty muted" wx:if="{{loading}}">加载中...</view>
+</view>

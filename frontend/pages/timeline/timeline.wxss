@@ -1,0 +1,86 @@
+.hero {
+  margin-bottom: 20rpx;
+}
+
+.stage {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.countdown {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: #d97706;
+}
+
+.next {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+}
+
+.section {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-bottom: 16rpx;
+}
+
+.task {
+  display: flex;
+  gap: 16rpx;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #f3f4f6;
+  font-size: 26rpx;
+}
+
+.subject {
+  width: 110rpx;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.title {
+  flex: 1;
+}
+
+.node {
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #f3f4f6;
+}
+
+.node-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.node-name {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.mini-btn {
+  width: 110rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  font-size: 22rpx;
+  border-radius: 26rpx;
+  background: #eef2ff;
+  color: #2563eb;
+}
+
+.guide {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.empty {
+  text-align: center;
+  padding: 80rpx 0;
+}

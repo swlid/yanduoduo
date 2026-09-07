@@ -1,0 +1,3 @@
+code,name,discipline_gate,discipline_level1,degree_type,is_cross_allowed,cross_condition,apply_condition,research_directions
+085406,人工智能,工学,电子信息,专硕,true,,,"[""机器学习""、""计算机视觉""]"
+125300,会计,管理学,会计,专硕,true,,,"[""财务会计""]"

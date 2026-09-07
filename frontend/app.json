@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/list/list",
+    "pages/assess/assess",
+    "pages/plan/plan",
+    "pages/checkin/checkin",
+    "pages/timeline/timeline",
+    "pages/detail/detail",
+    "pages/compare/compare"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#2563eb",
+    "navigationBarTitleText": "研多多",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f4f6fb"
+  },
+  "tabBar": {
+    "color": "#6b7280",
+    "selectedColor": "#2563eb",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/list/list",
+        "text": "院校库"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,65 @@
+<view class="page">
+  <view class="card form">
+    <view class="section-title">基础信息</view>
+
+    <view class="field">
+      <view class="label">本科专业</view>
+      <input value="{{undergradMajor}}" placeholder="如：软件工程" bindinput="onUndergrad" />
+    </view>
+
+    <view class="field">
+      <view class="label">估分水平（0-750）</view>
+      <input type="number" value="{{estimatedScore}}" placeholder="如：350" bindinput="onScore" />
+    </view>
+
+    <view class="field">
+      <view class="label">是否跨考</view>
+      <switch checked="{{isCrossMajor}}" bindchange="onCross" />
+    </view>
+
+    <view class="field">
+      <view class="label">学硕 / 专硕偏好</view>
+      <picker range="{{degreeTypes}}" value="{{degreeIndex}}" bindchange="onDegree">
+        <view class="picker">{{degreeTypes[degreeIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="label">目标院校层次</view>
+      <picker range="{{targetLevels}}" value="{{targetLevelIndex}}" bindchange="onTargetLevel">
+        <view class="picker">{{targetLevels[targetLevelIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="label">目标地区（可多选）</view>
+      <checkbox-group bindchange="onProvince">
+        <label class="checkbox" wx:for="{{provinceOptions}}" wx:key="name">
+          <checkbox value="{{item.name}}" checked="{{item.checked}}" />{{item.name}}
+        </label>
+      </checkbox-group>
+    </view>
+
+    <button class="primary-btn submit" loading="{{submitting}}" bindtap="submit">生成择校方案</button>
+    <view class="error" wx:if="{{error}}">{{error}}</view>
+  </view>
+
+  <view class="results" wx:if="{{result}}">
+    <view class="result-head">共推荐 {{result.recommendations.length}} 个院校专业</view>
+    <view class="tier" wx:for="{{tiers}}" wx:key="*this" wx:for-item="tierName">
+      <view class="tier-title">{{tierName}}</view>
+      <block wx:for="{{result.recommendations}}" wx:key="id" wx:for-item="rec">
+        <view class="card rec" wx:if="{{rec.tier == tierName}}" bindtap="goDetail" data-id="{{rec.institution_major_id}}">
+          <view class="rec-title">{{rec.institution_major.institution.name}} · {{rec.institution_major.major.name}}</view>
+          <view class="badges">
+            <text class="badge">{{rec.institution_major.institution.level}}</text>
+            <text class="badge">{{rec.institution_major.institution.category}}</text>
+            <text class="badge">{{rec.institution_major.major.degree_type}}</text>
+          </view>
+          <view class="muted">推荐概率 {{rec.probability}}%　平均分 {{rec.reason.avg_score}}　报录比 {{rec.reason.report_rate || '-'}}</view>
+          <view class="reason">{{rec.reason.text}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

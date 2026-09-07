@@ -1,0 +1,3 @@
+code,name,short_name,province,city,level,category,is_self_draw,official_url,logo_url,tags
+90010,示例理工大学,示例理工,浙江,杭州,普通,理工,false,https://example.com,"[]","[""示例""]"
+90011,示例财经大学,示例财大,上海,上海,普通,财经,false,https://example.com,"[]","[""示例""]"

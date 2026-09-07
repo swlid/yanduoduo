@@ -1,0 +1,50 @@
+.hero {
+  padding: 48rpx 32rpx;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: #ffffff;
+}
+
+.hero-title {
+  font-size: 42rpx;
+  font-weight: 700;
+}
+
+.hero-sub {
+  margin-top: 12rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero-btn {
+  margin-top: 30rpx;
+  background: #ffffff;
+  color: #2563eb;
+}
+
+.hero-btn.secondary-btn {
+  margin-top: 16rpx;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.stats {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 12rpx;
+}
+
+.stat-num {
+  font-size: 42rpx;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.notice {
+  margin-top: 24rpx;
+  font-size: 24rpx;
+}

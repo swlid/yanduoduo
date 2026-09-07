@@ -1,0 +1,46 @@
+<view class="page">
+  <view class="card form">
+    <view class="section-title">目标分数拆解</view>
+
+    <view class="field">
+      <view class="label">计划名称</view>
+      <input value="{{title}}" placeholder="如：计算机专硕冲刺计划" bindinput="onTitle" />
+    </view>
+
+    <view class="grid">
+      <view class="field">
+        <view class="label">开始日期</view>
+        <picker mode="date" value="{{startDate}}" bindchange="onStart">
+          <view class="picker">{{startDate}}</view>
+        </picker>
+      </view>
+      <view class="field">
+        <view class="label">结束日期</view>
+        <picker mode="date" value="{{endDate}}" bindchange="onEnd">
+          <view class="picker">{{endDate}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="score-row" wx:for="{{subjects}}" wx:key="*this" wx:for-item="subject">
+      <view class="score-name">{{subject}}</view>
+      <input class="score-input" type="number" placeholder="目标分" value="{{targets[subject]}}" data-subject="{{subject}}" bindinput="onTarget" />
+      <input class="score-input" type="number" placeholder="当前分(选填)" value="{{currents[subject]}}" data-subject="{{subject}}" bindinput="onCurrent" />
+    </view>
+
+    <view class="field">
+      <view class="label">每日学习时长（分钟）</view>
+      <input type="number" value="{{dailyMinutes}}" bindinput="onDaily" />
+    </view>
+
+    <button class="primary-btn submit" loading="{{loading}}" bindtap="submit">生成每日计划</button>
+  </view>
+
+  <view class="card result" wx:if="{{result}}">
+    <view class="result-title">计划已生成</view>
+    <view class="muted">计划：{{result.title}}</view>
+    <view class="muted">每日任务：{{result.plan_tasks.length}} 条</view>
+    <view class="muted">日期：{{result.start_date}} 至 {{result.end_date}}</view>
+    <button class="secondary-btn" bindtap="goCheckin">去打卡</button>
+  </view>
+</view>

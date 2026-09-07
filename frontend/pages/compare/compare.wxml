@@ -1,0 +1,18 @@
+<view class="page">
+  <view class="card" wx:if="{{items.length}}">
+    <scroll-view scroll-x class="scroll">
+      <view class="table" style="min-width: {{items.length * 260}}rpx;">
+        <view class="tr head">
+          <view class="td label">指标</view>
+          <view class="td value" wx:for="{{items}}" wx:key="id">{{item.institution.name}}<br />{{item.major.name}}</view>
+        </view>
+        <view class="tr" wx:for="{{rows}}" wx:key="label" wx:for-item="row">
+          <view class="td label">{{row.label}}</view>
+          <view class="td value" wx:for="{{row.values}}" wx:for-item="val">{{val}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="empty muted" wx:if="{{loading}}">加载中...</view>
+  <view class="empty muted" wx:if="{{!loading && !items.length}}">没有可对比的数据</view>
+</view>

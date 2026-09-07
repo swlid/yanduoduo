@@ -1,0 +1,40 @@
+.scroll {
+  width: 100%;
+}
+
+.table {
+  font-size: 24rpx;
+}
+
+.tr {
+  display: flex;
+  border-bottom: 1rpx solid #f3f4f6;
+}
+
+.tr.head {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.td {
+  padding: 16rpx 10rpx;
+  text-align: center;
+}
+
+.td.label {
+  width: 160rpx;
+  flex-shrink: 0;
+  background: #f8fafc;
+  color: #6b7280;
+  text-align: left;
+}
+
+.td.value {
+  flex: 1;
+  min-width: 220rpx;
+}
+
+.empty {
+  text-align: center;
+  padding: 80rpx 0;
+}

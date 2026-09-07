@@ -1,0 +1,63 @@
+.head {
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 38rpx;
+  font-weight: 700;
+  margin-bottom: 16rpx;
+}
+
+.badges {
+  margin-bottom: 12rpx;
+}
+
+.info,
+.stats {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-bottom: 16rpx;
+}
+
+.row {
+  display: flex;
+  gap: 24rpx;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #f3f4f6;
+  font-size: 26rpx;
+}
+
+.label {
+  flex-shrink: 0;
+  width: 140rpx;
+  color: #6b7280;
+}
+
+.stat-table {
+  font-size: 24rpx;
+}
+
+.tr {
+  display: flex;
+  border-bottom: 1rpx solid #f3f4f6;
+}
+
+.tr.head {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.td {
+  flex: 1;
+  padding: 14rpx 4rpx;
+  text-align: center;
+}
+
+.source {
+  margin-top: 18rpx;
+  font-size: 22rpx;
+}

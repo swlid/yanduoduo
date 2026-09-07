@@ -1,0 +1,48 @@
+<view class="page" wx:if="{{detail}}">
+  <view class="card head">
+    <view class="title">{{detail.institution.name}} · {{detail.major.name}}</view>
+    <view class="badges">
+      <text class="badge">{{detail.institution.level}}</text>
+      <text class="badge">{{detail.institution.category}}</text>
+      <text class="badge">{{detail.major.discipline_gate}}</text>
+      <text class="badge">{{detail.major.degree_type}}</text>
+    </view>
+    <view class="muted">{{detail.faculty_name}} · {{detail.study_mode}} · 学制 {{detail.length || '-'}} 年</view>
+  </view>
+
+  <view class="card info">
+    <view class="section-title">招生与考试信息</view>
+    <view class="row"><text class="label">学费</text><text>{{detail.tuition || '-'}}</text></view>
+    <view class="row"><text class="label">奖学金</text><text>{{detail.scholarship || '-'}}</text></view>
+    <view class="row"><text class="label">初试外语</text><text>{{detail.exam_basic['外语'] || '-'}}</text></view>
+    <view class="row"><text class="label">数学</text><text>{{detail.exam_basic['数学'] || '不考数学'}}</text></view>
+    <view class="row"><text class="label">专业课</text><text>{{detail.exam_major.name || '-'}}（{{detail.exam_major.code || '-'}}）</text></view>
+  </view>
+
+  <view class="card stats">
+    <view class="section-title">历年招录数据</view>
+    <view class="stat-table">
+      <view class="tr head">
+        <view class="td">年份</view>
+        <view class="td">招生</view>
+        <view class="td">报考</view>
+        <view class="td">录取</view>
+        <view class="td">报录比</view>
+        <view class="td">平均分</view>
+        <view class="td">院线</view>
+      </view>
+      <view class="tr" wx:for="{{statRows}}" wx:key="year">
+        <view class="td">{{item.year}}</view>
+        <view class="td">{{item.plan}}</view>
+        <view class="td">{{item.applicants}}</view>
+        <view class="td">{{item.admitted}}</view>
+        <view class="td">{{item.reportRate || '-'}}</view>
+        <view class="td">{{item.avgScore || '-'}}</view>
+        <view class="td">{{item.collegeLine || '-'}}</view>
+      </view>
+    </view>
+    <view class="source muted">数据来源：{{detail.latest_stat.source_name}}　数据质量：{{detail.latest_stat.data_quality}}</view>
+  </view>
+</view>
+
+<view class="page muted" wx:if="{{loading}}">加载中...</view>

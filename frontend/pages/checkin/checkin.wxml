@@ -1,0 +1,56 @@
+<view class="page">
+  <view class="card form">
+    <view class="section-title">今日打卡</view>
+
+    <view class="field">
+      <view class="label">日期</view>
+      <picker mode="date" value="{{today}}" bindchange="onDate">
+        <view class="picker">{{today}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="label">科目</view>
+      <picker range="{{subjects}}" value="{{subjectIndex}}" bindchange="onSubject">
+        <view class="picker">{{subjects[subjectIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="label">学习时长（分钟）</view>
+      <input type="number" value="{{duration}}" bindinput="onDuration" />
+    </view>
+
+    <view class="field">
+      <view class="label">完成度（%）</view>
+      <input type="number" value="{{completion}}" bindinput="onCompletion" />
+    </view>
+
+    <view class="field">
+      <view class="label">备注</view>
+      <input value="{{note}}" placeholder="可选" bindinput="onNote" />
+    </view>
+
+    <view class="field switch-row">
+      <view class="label">补卡</view>
+      <switch checked="{{isMakeup}}" bindchange="onMakeup" />
+    </view>
+
+    <button class="primary-btn submit" loading="{{loading}}" bindtap="submit">提交打卡</button>
+  </view>
+
+  <view class="card stats" wx:if="{{progress}}">
+    <view class="section-title">近 7 天概览</view>
+    <view class="stat-grid">
+      <view class="stat"><text class="num">{{progress.total_minutes}}</text><text class="muted">学习分钟</text></view>
+      <view class="stat"><text class="num">{{progress.total_days}}</text><text class="muted">打卡天数</text></view>
+      <view class="stat"><text class="num">{{progress.consecutive_days}}</text><text class="muted">连续天数</text></view>
+    </view>
+    <view class="subjects">
+      <view class="subject" wx:for="{{subjects}}" wx:key="*this" wx:for-item="subject">
+        <text>{{subject}}</text>
+        <text>{{progress.subject_progress[subject] || 0}} 分钟</text>
+      </view>
+    </view>
+  </view>
+</view>

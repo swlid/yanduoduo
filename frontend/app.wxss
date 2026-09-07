@@ -1,0 +1,60 @@
+page {
+  background: #f4f6fb;
+  color: #1f2937;
+  font-size: 28rpx;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.page {
+  padding: 24rpx;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(15, 23, 42, 0.05);
+}
+
+.muted {
+  color: #6b7280;
+}
+
+.primary-btn {
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+}
+
+.secondary-btn {
+  background: #eef2ff;
+  color: #2563eb;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4rpx 14rpx;
+  margin-right: 10rpx;
+  border-radius: 999rpx;
+  background: #eef2ff;
+  color: #2563eb;
+  font-size: 22rpx;
+}
+
+.badge-warn {
+  background: #fff7ed;
+  color: #d97706;
+}
+
+.badge-danger {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.badge-ok {
+  background: #ecfdf5;
+  color: #059669;
+}

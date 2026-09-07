@@ -1,0 +1,30 @@
+<view class="page">
+  <view class="hero card">
+    <view class="hero-title">考研全流程，从这里开始</view>
+    <view class="hero-sub muted">院校查询 · 择校参考 · 计划提醒</view>
+    <button class="primary-btn hero-btn" bindtap="goList">进入院校库</button>
+    <button class="secondary-btn hero-btn" bindtap="goAssess">智能择校测评</button>
+    <button class="secondary-btn hero-btn" bindtap="goPlan">生成学习计划</button>
+    <button class="secondary-btn hero-btn" bindtap="goCheckin">今日打卡</button>
+    <button class="secondary-btn hero-btn" bindtap="goTimeline">考研时间线</button>
+  </view>
+
+  <view class="stats">
+    <view class="stat card">
+      <view class="stat-num">{{counts.institutions}}</view>
+      <view class="muted">招生单位</view>
+    </view>
+    <view class="stat card">
+      <view class="stat-num">{{counts.majors}}</view>
+      <view class="muted">专业条目</view>
+    </view>
+    <view class="stat card">
+      <view class="stat-num">{{counts.combos}}</view>
+      <view class="muted">院校专业组合</view>
+    </view>
+  </view>
+
+  <view class="card notice muted">
+    当前为 Mock 示例数据，仅用于功能演示，不代表真实招录事实。
+  </view>
+</view>

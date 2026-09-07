@@ -1,0 +1,3 @@
+institution_code,major_code,year,plan_total,plan_unified,recommended_count,recommended_ratio,applicant_count,admitted_count,report_rate,reexam_count,reexam_admit_rate,max_score,min_score,avg_score,national_line,self_line,college_line,transfer_quota,metrics,source_url,source_name,source_year,data_quality,review_status
+10293,085404,2024,110,80,30,0.2727,980,64,15.31,76,1.19,358,315,328,273,,324,2,"{""difficulty"":""保底""}",https://example.com,示例来源,2024,official,pending
+10293,085404,2025,113,82,31,0.2743,1025,66,15.53,79,1.20,361,318,330,273,,326,2,"{""difficulty"":""保底""}",https://example.com,示例来源,2025,official,pending

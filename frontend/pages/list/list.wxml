@@ -1,0 +1,50 @@
+<view class="page">
+  <view class="filters card">
+    <input class="filter-input" placeholder="搜索学校 / 专业 / 院系" value="{{keyword}}" bindinput="onKeyword" confirm-type="search" bindconfirm="loadList" />
+    <view class="filter-grid">
+      <picker range="{{provinces}}" value="{{provinceIndex}}" bindchange="onProvince">
+        <view class="picker">地区：{{provinces[provinceIndex]}}</view>
+      </picker>
+      <picker range="{{levels}}" value="{{levelIndex}}" bindchange="onLevel">
+        <view class="picker">层次：{{levels[levelIndex]}}</view>
+      </picker>
+      <picker range="{{disciplines}}" value="{{disciplineIndex}}" bindchange="onDiscipline">
+        <view class="picker">门类：{{disciplines[disciplineIndex]}}</view>
+      </picker>
+      <picker range="{{years}}" value="0" bindchange="onYear">
+        <view class="picker">年份：{{year}}</view>
+      </picker>
+    </view>
+    <input class="filter-input" type="number" placeholder="最低平均分，如 340" value="{{minAvg}}" bindinput="onMinAvg" />
+    <view class="filter-actions">
+      <button class="primary-btn" bindtap="loadList">查询</button>
+      <button class="secondary-btn" bindtap="reset">重置</button>
+      <button class="secondary-btn" bindtap="goCompare">对比</button>
+    </view>
+  </view>
+
+  <view class="result muted">共 {{total}} 个院校专业组合</view>
+
+  <view class="list">
+    <view class="card item" wx:for="{{items}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="item-head">
+        <view class="item-title">{{item.institution.name}} · {{item.major.name}}</view>
+        <button class="mini-btn" catchtap="toggleCompare" data-id="{{item.id}}">对比</button>
+      </view>
+      <view class="badges">
+        <text class="badge">{{item.institution.level}}</text>
+        <text class="badge">{{item.institution.category}}</text>
+        <text class="badge">{{item.major.degree_type}}</text>
+        <text class="badge {{item.difficultyClass}}">{{item.difficultyText}}</text>
+      </view>
+      <view class="muted">{{item.faculty_name}} · {{item.institution.province}} {{item.institution.city}}</view>
+      <view class="metrics">
+        <view class="metric"><text class="muted">平均分</text><text class="metric-num">{{item.latest_stat.avg_score || '-'}}</text></view>
+        <view class="metric"><text class="muted">报录比</text><text class="metric-num">{{item.latest_stat.report_rate || '-'}}</text></view>
+        <view class="metric"><text class="muted">复录比</text><text class="metric-num">{{item.latest_stat.reexam_admit_rate || '-'}}</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty muted" wx:if="{{!loading && !items.length}}">没有符合条件的结果</view>
+</view>
