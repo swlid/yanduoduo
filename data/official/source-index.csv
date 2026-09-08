@@ -1,0 +1,38 @@
+学校,资料类型,年份,官方URL,正文可读性,核对状态,备注
+浙江大学,复试基本分数线,2024,http://www.grs.zju.edu.cn/yjszs/2024/0314/c28489a2890520/page.htm,文字,已核对,全文已抓取存证
+浙江大学,复试基本分数线,2025,http://www.grs.zju.edu.cn/yjszs/2025/0312/c28489a3026511/page.htm,文字,已核对,全文已抓取存证
+浙江大学,复试基本分数线,2026,http://www.grs.zju.edu.cn/yjszs/2026/0313/c28498a3140077/page.htm,图片,数值经多源交叉核对,表格为3张PNG已本地存证;数值经研招网/新华网/教育在线等转载核对一致
+杭州电子科技大学,复试分数线,2026,http://grs.hdu.edu.cn/2026/0324/c13270a290580/page.htm,文字,已核对,含分专业代码分数线全文
+杭州电子科技大学,复试分数线,2025,http://grs.hdu.edu.cn/2025/0326/c13498a276588/page.htm,图片,已核(OCR),官方原图已下载OCR;6个目标专业线全部核录
+杭州电子科技大学,复试分数线,2024,http://grs.hdu.edu.cn/2024/0327/c13498a262640/page.htm,图片,已核(OCR),官方原图已下载OCR;6个目标专业线全部核录
+杭州电子科技大学,拟招生计划,2025,http://grs.hdu.edu.cn/2025/0326/c13498a276607/page.htm,图片,待补,表格疑似图片,需下载附件/图片或核对转载
+西安电子科技大学,计算机学院复试录取方案,2026,https://cs.xidian.edu.cn/info/2542/23764.htm,文字/图片,待补,招生计划表为图片/附件,需下载附件
+西安电子科技大学,计算机学院复试录取方案,2025,https://cs.xidian.edu.cn/info/2082/19234.htm,文字/图片,待补,招生计划表为图片/附件,需下载附件
+西安电子科技大学,计算机学院复试线,2024,https://cs.xidian.edu.cn/info/1026/16334.htm,文字/图片,部分可核,081200=340与085404(01)=315有官方转载一致;待图片原表复核
+西安电子科技大学,计算机学院复试线,2025,https://cs.xidian.edu.cn/info/2082/19234.htm,图片,已核(OCR),081200=330/085404(01)=345/085405=330;本地OCR原图核录
+西安电子科技大学,计算机学院复试线,2026,https://cs.xidian.edu.cn/info/2542/23764.htm,图片,已核(OCR),081200=335/085404(01)=310/085405=310;本地OCR原图核录,转载310/335/350均以原图为准
+南京理工大学,2026复试基本要求,2026,https://gs.njust.edu.cn/zsw/83/f8/c4587a361464/page.htm,PDF附件,待核,分数线正文为两个PDF附件需解析
+上海大学,复试分数线,2024,https://gmis.shu.edu.cn/PHP/Pub/SS_Fengshuxian.php?Year=2024,文字,已核对,官方历年复试线网页正文逐字核录;081200/080200/025100/030100共4个单列专业线全部核录
+上海大学,复试分数线,2025,https://gmis.shu.edu.cn/PHP/Pub/SS_Fengshuxian.php?Year=2025,文字,已核对,官方历年复试线网页正文逐字核录;6个单列专业线全部核录
+上海大学,复试分数线,2026,https://gmis.shu.edu.cn/PHP/Pub/SS_Fengshuxian.php?Year=2026,文字,已核对,官方历年复试线网页正文逐字核录;6个单列专业线全部核录
+北京大学,复试基本分数线,2024,https://admission.pku.edu.cn/docs/20240312195301489745.pdf,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+北京大学,复试基本分数线,2025,https://admission.pku.edu.cn/docs/20250312160154148797.pdf,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+北京大学,复试基本分数线,2026,https://admission.pku.edu.cn/docs/20260313100201705627.pdf,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+清华大学,复试基本分数线,2024,https://yz.chsi.com.cn/kyzx/fsfsx34/202403/20240313/2293269549.html,文字/图片(OCR),已核对,官方原文核录；原始存证见 data/official/raw/
+清华大学,复试基本分数线,2025,https://yz.chsi.com.cn/kyzx/fsfsx34/202503/20250312/2293356006.html,文字/图片(OCR),已核对,官方原文核录；原始存证见 data/official/raw/
+清华大学,复试基本分数线,2026,https://yz.tsinghua.edu.cn/info/1009/3196.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+复旦大学,复试基本分数线,2024,https://gsao.fudan.edu.cn/28/91/c15014a665745/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+复旦大学,复试基本分数线,2025,https://gsao.fudan.edu.cn/ff/96/c15014a720790/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+复旦大学,复试基本分数线,2026,https://gsao.fudan.edu.cn/c8/9f/c15014a772255/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+上海交通大学,复试基本分数线,2024,https://www.gs.sjtu.edu.cn/storage/gs/web/yzbcn/article/2024/04/c2662f092fb2abd1a53f37f7763e0355.pdf,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+上海交通大学,复试基本分数线,2025,https://www.shsmu.edu.cn/__local/A/02/45/B1CA670395206A1F035624B155A_9723BBF0_1B5F1.pdf,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+上海交通大学,复试基本分数线,2026,https://yzb.sjtu.edu.cn/post/3503,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+南京大学,复试基本分数线,2024,https://yzb.nju.edu.cn/3e/ff/c47863a671487/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+南京大学,复试基本分数线,2025,https://grawww.nju.edu.cn/6b/cb/c905a748491/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+南京大学,复试基本分数线,2026,https://yzb.nju.edu.cn/9c/f9/c47863a826617/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+东南大学,复试基本分数线,2024,https://yzb.seu.edu.cn/2024/0314/c6676a484092/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+东南大学,复试基本分数线,2025,https://yzb.seu.edu.cn/2025/0314/c6676a521705/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+东南大学,复试基本分数线,2026,https://yzb.seu.edu.cn/2026/0314/c6676a558100/page.psp,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+华东师范大学,复试基本分数线,2024,https://yjszs.ecnu.edu.cn/_upload/article/files/db/d7/3bd3f224457babca17731a7d8310/3ff99930-f6e0-488d-9ef9-aebdf36d875c.pdf,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+华东师范大学,复试基本分数线,2025,https://yjszs.ecnu.edu.cn/58/c8/c43463a678088/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+华东师范大学,复试基本分数线,2026,https://yjszs.ecnu.edu.cn/6b/94/c43463a748436/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/

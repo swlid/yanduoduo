@@ -45,14 +45,14 @@ class MajorOut(ORMModel):
 class AdmissionStatOut(ORMModel):
     id: str
     year: int
-    plan_total: int
-    plan_unified: int
-    recommended_count: int
+    plan_total: int | None = None
+    plan_unified: int | None = None
+    recommended_count: int | None = None
     recommended_ratio: float | None = None
-    applicant_count: int
-    admitted_count: int
+    applicant_count: int | None = None
+    admitted_count: int | None = None
     report_rate: float | None = None
-    reexam_count: int
+    reexam_count: int | None = None
     reexam_admit_rate: float | None = None
     max_score: float | None = None
     min_score: float | None = None
@@ -60,7 +60,7 @@ class AdmissionStatOut(ORMModel):
     national_line: float | None = None
     self_line: float | None = None
     college_line: float | None = None
-    transfer_quota: int
+    transfer_quota: int | None = None
     metrics: dict[str, Any] = {}
     source_url: str | None = None
     source_name: str
@@ -311,14 +311,14 @@ class InstitutionMajorUpdate(BaseModel):
 class AdmissionStatCreate(BaseModel):
     institution_major_id: str
     year: int
-    plan_total: int = 0
-    plan_unified: int = 0
-    recommended_count: int = 0
+    plan_total: int | None = None
+    plan_unified: int | None = None
+    recommended_count: int | None = None
     recommended_ratio: float | None = None
-    applicant_count: int = 0
-    admitted_count: int = 0
+    applicant_count: int | None = None
+    admitted_count: int | None = None
     report_rate: float | None = None
-    reexam_count: int = 0
+    reexam_count: int | None = None
     reexam_admit_rate: float | None = None
     max_score: float | None = None
     min_score: float | None = None
@@ -326,7 +326,7 @@ class AdmissionStatCreate(BaseModel):
     national_line: float | None = None
     self_line: float | None = None
     college_line: float | None = None
-    transfer_quota: int = 0
+    transfer_quota: int | None = None
     metrics: dict[str, Any] = {}
     source_url: str | None = None
     source_name: str = "人工录入"
@@ -358,6 +358,11 @@ class AdmissionStatUpdate(BaseModel):
     source_year: int | None = None
     data_quality: str | None = None
     review_status: str | None = None
+
+
+class AdmissionStatReview(BaseModel):
+    review_status: Literal["approved", "rejected", "pending"]
+    reviewed_by: str | None = None
 
 
 class CorrectionCreate(BaseModel):

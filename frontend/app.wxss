@@ -58,3 +58,8 @@ page {
   background: #ecfdf5;
   color: #059669;
 }
+
+.badge-gray {
+  background: #f4f4f5;
+  color: #71717a;
+}

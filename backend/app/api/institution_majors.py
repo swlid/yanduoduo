@@ -37,12 +37,17 @@ def _load_statement():
 def _pick_stat(
     item: InstitutionMajor, year: int | None
 ) -> AdmissionStat | None:
-    stats = sorted(item.admission_stats, key=lambda x: x.year, reverse=True)
+    visible = [
+        stat
+        for stat in item.admission_stats
+        if stat.review_status == "approved"
+    ]
+    stats = sorted(visible, key=lambda x: x.year, reverse=True)
     if not stats:
         return None
     if year is None:
         return stats[0]
-    return next((x for x in stats if x.year == year), stats[0])
+    return next((x for x in stats if x.year == year), None)
 
 
 def _stat_out(stat: AdmissionStat | None) -> dict | None:
@@ -73,7 +78,12 @@ def _summary(item: InstitutionMajor, year: int | None) -> dict:
 
 def _detail(item: InstitutionMajor, year: int | None) -> dict:
     payload = _summary(item, year)
-    stats = sorted(item.admission_stats, key=lambda x: x.year)
+    visible = [
+        stat
+        for stat in item.admission_stats
+        if stat.review_status == "approved"
+    ]
+    stats = sorted(visible, key=lambda x: x.year)
     payload["admission_stats"] = [
         AdmissionStatOut.model_validate(stat).model_dump(mode="json")
         for stat in stats

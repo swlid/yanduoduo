@@ -76,6 +76,38 @@ def _json(value: Any, default: Any) -> Any:
         return default
 
 
+_EMPTY_MARKERS = {"", "暂无", "无", "不公布", "未知", "n/a", "na", "none"}
+
+
+def _optional_int(value: Any) -> int | None:
+    """将空值/“暂无”解析为 None；其余必须是非负整数，否则报错。"""
+    if value is None:
+        return None
+    text = str(value).strip().lower()
+    if text in _EMPTY_MARKERS:
+        return None
+    try:
+        number = float(text)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"数值字段无法解析为整数：{value!r}") from exc
+    if not number.is_integer() or number < 0:
+        raise ValueError(f"数值字段必须为非负整数：{value!r}")
+    return int(number)
+
+
+def _optional_float(value: Any) -> float | None:
+    """将空值/“暂无”解析为 None；其余必须是可解析数值。"""
+    if value is None:
+        return None
+    text = str(value).strip().lower()
+    if text in _EMPTY_MARKERS:
+        return None
+    try:
+        return float(text)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"数值字段无法解析：{value!r}") from exc
+
+
 def _resolve_institution(db: Session, row: dict[str, Any]) -> Institution | None:
     if row.get("institution_id"):
         return db.get(Institution, row["institution_id"])
@@ -230,47 +262,160 @@ def _import_institution_majors(
     return {"entity_type": "institution_major", "created": created, "updated": updated}
 
 
+def _validate_stat_row(
+    db: Session,
+    row: dict[str, Any],
+    index: int,
+) -> tuple[dict[str, Any] | None, list[str]]:
+    """解析并校验一条招录数据；返回 (可写入的数据, 错误列表)。"""
+    errors: list[str] = []
+    prefix = f"第 {index} 行"
+
+    institution_major = _resolve_institution_major(db, row)
+    if institution_major is None:
+        return None, [f"{prefix}: 未找到对应的院校-专业组合"]
+
+    year = _optional_int(row.get("year"))
+    if year is None or not 2000 <= year <= 2100:
+        errors.append(f"{prefix}: year 缺失或超出 2000-2100")
+
+    data_quality = str(row.get("data_quality") or "official").strip()
+    allowed_quality = {"official", "mock", "none", "third_party", "user_submitted"}
+    if data_quality not in allowed_quality:
+        errors.append(f"{prefix}: data_quality 非法值 {data_quality!r}")
+
+    source_url = (row.get("source_url") or "").strip() or None
+    source_name = str(row.get("source_name") or "").strip()
+    source_year = _optional_int(row.get("source_year")) or year
+    if data_quality == "official":
+        if not source_url or not source_url.lower().startswith(("http://", "https://")):
+            errors.append(f"{prefix}: official 数据必须提供有效 source_url")
+        if not source_name:
+            errors.append(f"{prefix}: official 数据必须提供 source_name")
+        if source_year != year:
+            errors.append(f"{prefix}: official 数据 source_year 必须与 year 一致")
+
+    def get_int(field: str) -> int | None:
+        try:
+            return _optional_int(row.get(field))
+        except ValueError as exc:
+            errors.append(f"{prefix}: {field} {exc}")
+            return None
+
+    def get_float(field: str) -> float | None:
+        try:
+            return _optional_float(row.get(field))
+        except ValueError as exc:
+            errors.append(f"{prefix}: {field} {exc}")
+            return None
+
+    plan_total = get_int("plan_total")
+    plan_unified = get_int("plan_unified")
+    recommended_count = get_int("recommended_count")
+    recommended_ratio = get_float("recommended_ratio")
+    applicant_count = get_int("applicant_count")
+    admitted_count = get_int("admitted_count")
+    report_rate = get_float("report_rate")
+    reexam_count = get_int("reexam_count")
+    reexam_admit_rate = get_float("reexam_admit_rate")
+    max_score = get_float("max_score")
+    min_score = get_float("min_score")
+    avg_score = get_float("avg_score")
+    national_line = get_float("national_line")
+    self_line = get_float("self_line")
+    college_line = get_float("college_line")
+    transfer_quota = get_int("transfer_quota")
+
+    if plan_unified is not None and plan_total is not None and plan_unified > plan_total:
+        errors.append(f"{prefix}: plan_unified 不能大于 plan_total")
+    if recommended_count is not None and plan_total is not None and recommended_count > plan_total:
+        errors.append(f"{prefix}: recommended_count 不能大于 plan_total")
+    if (
+        recommended_ratio is not None
+        and not 0 <= recommended_ratio <= 1
+    ):
+        errors.append(f"{prefix}: recommended_ratio 应为 0-1 的小数比例")
+    for field, value in (
+        ("report_rate", report_rate),
+        ("reexam_admit_rate", reexam_admit_rate),
+    ):
+        if value is not None and value < 0:
+            errors.append(f"{prefix}: {field} 不能为负数")
+
+    scores = {
+        "max_score": max_score,
+        "min_score": min_score,
+        "avg_score": avg_score,
+        "national_line": national_line,
+        "self_line": self_line,
+        "college_line": college_line,
+    }
+    for field, value in scores.items():
+        if value is not None and not 0 <= value <= 500:
+            errors.append(f"{prefix}: {field} 超出合理范围 0-500")
+    if None not in (min_score, avg_score, max_score):
+        if not (min_score <= avg_score <= max_score):
+            errors.append(f"{prefix}: 分数逻辑不成立 min_score <= avg_score <= max_score")
+    if (
+        institution_major.institution.is_self_draw
+        and self_line is not None
+        and college_line is not None
+        and college_line < self_line
+    ):
+        errors.append(f"{prefix}: 自划线院校 college_line 不应低于 self_line")
+
+    if errors or year is None:
+        return None, errors
+
+    data = {
+        "plan_total": plan_total,
+        "plan_unified": plan_unified,
+        "recommended_count": recommended_count,
+        "recommended_ratio": recommended_ratio,
+        "applicant_count": applicant_count,
+        "admitted_count": admitted_count,
+        "report_rate": report_rate,
+        "reexam_count": reexam_count,
+        "reexam_admit_rate": reexam_admit_rate,
+        "max_score": max_score,
+        "min_score": min_score,
+        "avg_score": avg_score,
+        "national_line": national_line,
+        "self_line": self_line,
+        "college_line": college_line,
+        "transfer_quota": transfer_quota,
+        "metrics": _json(row.get("metrics"), {}),
+        "source_url": source_url,
+        "source_name": source_name or "人工导入",
+        "source_year": source_year or year,
+        "data_quality": data_quality,
+        "review_status": str(row.get("review_status") or "pending"),
+    }
+    return data, errors
+
+
 def _import_admission_stats(
     db: Session, rows: list[dict[str, Any]]
 ) -> dict[str, Any]:
     created = 0
     updated = 0
-    for row in rows:
-        institution_major = _resolve_institution_major(db, row)
-        year = _int(row.get("year"))
-        source_year = _int(row.get("source_year"), year)
-        if institution_major is None or not year:
+    errors: list[str] = []
+    for index, row in enumerate(rows, start=1):
+        data, row_errors = _validate_stat_row(db, row, index)
+        if row_errors:
+            errors.extend(row_errors)
             continue
+        assert data is not None
+        institution_major = _resolve_institution_major(db, row)
+        assert institution_major is not None
+        year = _optional_int(row.get("year"))
+        assert year is not None
         item = db.scalar(
             select(AdmissionStat).where(
                 AdmissionStat.institution_major_id == institution_major.id,
                 AdmissionStat.year == year,
             )
         )
-        data = {
-            "plan_total": _int(row.get("plan_total")),
-            "plan_unified": _int(row.get("plan_unified")),
-            "recommended_count": _int(row.get("recommended_count")),
-            "recommended_ratio": _float(row.get("recommended_ratio")),
-            "applicant_count": _int(row.get("applicant_count")),
-            "admitted_count": _int(row.get("admitted_count")),
-            "report_rate": _float(row.get("report_rate")),
-            "reexam_count": _int(row.get("reexam_count")),
-            "reexam_admit_rate": _float(row.get("reexam_admit_rate")),
-            "max_score": _float(row.get("max_score")),
-            "min_score": _float(row.get("min_score")),
-            "avg_score": _float(row.get("avg_score")),
-            "national_line": _float(row.get("national_line")),
-            "self_line": _float(row.get("self_line")),
-            "college_line": _float(row.get("college_line")),
-            "transfer_quota": _int(row.get("transfer_quota")),
-            "metrics": _json(row.get("metrics"), {}),
-            "source_url": row.get("source_url") or None,
-            "source_name": str(row.get("source_name", "人工导入")),
-            "source_year": source_year,
-            "data_quality": str(row.get("data_quality", "official")),
-            "review_status": str(row.get("review_status", "pending")),
-        }
         if item is None:
             db.add(
                 AdmissionStat(
@@ -285,4 +430,9 @@ def _import_admission_stats(
                 setattr(item, key, value)
             updated += 1
     db.commit()
-    return {"entity_type": "admission_stat", "created": created, "updated": updated}
+    return {
+        "entity_type": "admission_stat",
+        "created": created,
+        "updated": updated,
+        "errors": errors,
+    }

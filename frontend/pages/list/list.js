@@ -12,7 +12,7 @@ Page({
     provinces: ["全部", "北京", "上海", "浙江", "江苏", "湖北", "陕西"],
     levels: ["全部", "985", "211", "双一流", "普通"],
     disciplines: ["全部", "工学", "经济学", "教育学", "法学"],
-    years: [2025, 2024, 2023],
+    years: [2025, 2024, 2023, 2026],
     items: [],
     total: 0
   },
@@ -84,14 +84,27 @@ Page({
     try {
       const data = await api.getInstitutionMajors(params);
       const items = (data.items || []).map((item) => {
-        const difficulty = item.latest_stat && item.latest_stat.metrics
-          ? item.latest_stat.metrics.difficulty
+        const stat = item.latest_stat || null;
+        const qualityMap = {
+          official: { text: "官方数据", cls: "badge-ok" },
+          mock: { text: "示例数据", cls: "badge-warn" },
+          none: { text: "暂无数据", cls: "badge-gray" },
+          third_party: { text: "第三方引用", cls: "badge-warn" },
+          user_submitted: { text: "用户提交", cls: "badge-gray" }
+        };
+        const quality = stat
+          ? qualityMap[stat.data_quality] || { text: stat.data_quality, cls: "badge-gray" }
+          : { text: "该年暂无数据", cls: "badge-gray" };
+        const difficulty = stat && stat.metrics
+          ? stat.metrics.difficulty
           : "未知";
         let difficultyClass = "badge-ok";
         if (difficulty === "冲刺") difficultyClass = "badge-danger";
         if (difficulty === "稳妥") difficultyClass = "badge-warn";
         return {
           ...item,
+          qualityText: quality.text,
+          qualityClass: quality.cls,
           difficultyText: difficulty || "未知",
           difficultyClass
         };

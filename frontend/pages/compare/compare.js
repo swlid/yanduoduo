@@ -40,7 +40,12 @@ Page({
       ];
       const rows = metricDefs.map(([label, fn]) => ({
         label,
-        values: items.map((item) => fn(item) ?? "-")
+        values: items.map((item) => {
+          const value = fn(item);
+          return value === null || value === undefined || value === ""
+            ? "暂无"
+            : value;
+        })
       }));
       this.setData({ items, rows });
     } catch (err) {

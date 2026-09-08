@@ -60,7 +60,12 @@ def _probability(gap: float, report_rate: float | None) -> float:
     return round(max(5.0, min(95.0, value)), 2)
 
 
-def _reason_text(tier: str, gap: float, report_rate: float | None) -> str:
+def _reason_text(
+    tier: str,
+    gap: float,
+    report_rate: float | None,
+    basis: str = "平均录取分",
+) -> str:
     direction = "低于" if gap < 0 else "高于"
     competition = (
         f"报录比 {report_rate:.1f}，竞争较激烈"
@@ -70,10 +75,10 @@ def _reason_text(tier: str, gap: float, report_rate: float | None) -> str:
         else "竞争数据缺失"
     )
     if tier == "冲刺":
-        return f"你的估分{direction}近 3 年平均录取分约 {abs(gap):.0f} 分，属于冲刺目标；{competition}。"
+        return f"你的估分{direction}近 3 年{basis}约 {abs(gap):.0f} 分，属于冲刺目标；{competition}。"
     if tier == "稳妥":
-        return f"你的估分与近 3 年平均录取分差距约 {abs(gap):.0f} 分，属于稳妥目标；{competition}。"
-    return f"你的估分{direction}近 3 年平均录取分约 {abs(gap):.0f} 分，属于保底目标；{competition}。"
+        return f"你的估分与近 3 年{basis}差距约 {abs(gap):.0f} 分，属于稳妥目标；{competition}。"
+    return f"你的估分{direction}近 3 年{basis}约 {abs(gap):.0f} 分，属于保底目标；{competition}。"
 
 
 def generate_recommendations(
@@ -106,7 +111,7 @@ def generate_recommendations(
 
     for item in db.scalars(stmt).all():
         stat = _latest_stat(item)
-        if stat is None or stat.avg_score is None:
+        if stat is None:
             continue
         if target_provinces and item.institution.province not in target_provinces:
             continue
@@ -117,9 +122,19 @@ def generate_recommendations(
         if target_level and item.institution.level != target_level:
             continue
 
-        avg_score = float(stat.avg_score)
+        if stat.avg_score is not None:
+            baseline = float(stat.avg_score)
+            basis = "平均录取分"
+        elif stat.college_line is not None:
+            baseline = float(stat.college_line)
+            basis = "院线"
+        elif stat.self_line is not None:
+            baseline = float(stat.self_line)
+            basis = "学校复试基本线"
+        else:
+            continue
         report_rate = _to_float(stat.report_rate)
-        gap = estimated - avg_score
+        gap = estimated - baseline
         tier = _classify_tier(gap, report_rate)
         probability = _probability(gap, report_rate)
         score = round(100 - min(abs(gap) * 1.2, 60) - (report_rate or 0) * 0.5, 2)
@@ -132,10 +147,11 @@ def generate_recommendations(
                 score=Decimal(str(max(0, score))),
                 probability=Decimal(str(probability)),
                 reason={
-                    "text": _reason_text(tier, gap, report_rate),
+                    "text": _reason_text(tier, gap, report_rate, basis),
                     "gap": round(gap, 1),
                     "estimated_score": estimated,
-                    "avg_score": round(avg_score, 1),
+                    "avg_score": round(baseline, 1),
+                    "baseline_type": basis,
                     "report_rate": report_rate,
                     "reexam_admit_rate": _to_float(stat.reexam_admit_rate),
                     "trend": (stat.metrics or {}).get("trend", "未知"),

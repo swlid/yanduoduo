@@ -20,6 +20,7 @@ from ..models import (
 from ..schemas import (
     AdmissionStatCreate,
     AdmissionStatOut,
+    AdmissionStatReview,
     AdmissionStatUpdate,
     ArticleCreate,
     ArticleOut,
@@ -240,6 +241,64 @@ def delete_admission_stat(item_id: str, db: Session = Depends(get_db)) -> dict:
     db.delete(item)
     db.commit()
     return {"deleted": True, "id": item_id}
+
+
+@router.get("/admission-stats", response_model=dict)
+def list_admission_stats(
+    review_status: str | None = None,
+    data_quality: str | None = None,
+    year: int | None = None,
+    page: int = 1,
+    page_size: int = 20,
+    db: Session = Depends(get_db),
+) -> dict:
+    stmt = select(AdmissionStat).options(
+        selectinload(AdmissionStat.institution_major).selectinload(
+            InstitutionMajor.institution
+        ),
+        selectinload(AdmissionStat.institution_major).selectinload(
+            InstitutionMajor.major
+        ),
+    )
+    conditions = []
+    if review_status:
+        conditions.append(AdmissionStat.review_status == review_status)
+    if data_quality:
+        conditions.append(AdmissionStat.data_quality == data_quality)
+    if year:
+        conditions.append(AdmissionStat.year == year)
+    rows = list(
+        db.scalars(stmt.where(*conditions).order_by(AdmissionStat.created_at.desc())).all()
+    )
+    total = len(rows)
+    page_rows = rows[(page - 1) * page_size : page * page_size]
+    items = []
+    for stat in page_rows:
+        payload = AdmissionStatOut.model_validate(stat).model_dump(mode="json")
+        im = stat.institution_major
+        payload["institution_name"] = im.institution.name
+        payload["major_name"] = im.major.name
+        payload["major_code"] = im.major.code
+        payload["faculty_name"] = im.faculty_name
+        items.append(payload)
+    return {"items": items, "total": total, "page": page, "page_size": page_size}
+
+
+@router.post("/admission-stats/{item_id}/review", response_model=AdmissionStatOut)
+def review_admission_stat(
+    item_id: str,
+    payload: AdmissionStatReview,
+    db: Session = Depends(get_db),
+) -> AdmissionStatOut:
+    item = db.get(AdmissionStat, item_id)
+    if item is None:
+        raise HTTPException(status_code=404, detail="招录数据不存在")
+    item.review_status = payload.review_status
+    item.reviewed_by = payload.reviewed_by
+    item.reviewed_at = datetime.now(timezone.utc)
+    db.commit()
+    db.refresh(item)
+    return AdmissionStatOut.model_validate(item)
 
 
 @router.post("/import", response_model=dict)

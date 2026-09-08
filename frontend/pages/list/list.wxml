@@ -35,6 +35,7 @@
         <text class="badge">{{item.institution.level}}</text>
         <text class="badge">{{item.institution.category}}</text>
         <text class="badge">{{item.major.degree_type}}</text>
+        <text class="badge {{item.qualityClass}}">{{item.qualityText}}</text>
         <text class="badge {{item.difficultyClass}}">{{item.difficultyText}}</text>
       </view>
       <view class="muted">{{item.faculty_name}} · {{item.institution.province}} {{item.institution.city}}</view>

@@ -30,18 +30,23 @@
         <view class="td">报录比</view>
         <view class="td">平均分</view>
         <view class="td">院线</view>
+        <view class="td">标识</view>
       </view>
       <view class="tr" wx:for="{{statRows}}" wx:key="year">
         <view class="td">{{item.year}}</view>
         <view class="td">{{item.plan}}</view>
         <view class="td">{{item.applicants}}</view>
         <view class="td">{{item.admitted}}</view>
-        <view class="td">{{item.reportRate || '-'}}</view>
-        <view class="td">{{item.avgScore || '-'}}</view>
-        <view class="td">{{item.collegeLine || '-'}}</view>
+        <view class="td">{{item.reportRate}}</view>
+        <view class="td">{{item.avgScore}}</view>
+        <view class="td">{{item.collegeLine}}</view>
+        <view class="td">{{item.qualityText}}</view>
       </view>
     </view>
-    <view class="source muted">数据来源：{{detail.latest_stat.source_name}}　数据质量：{{detail.latest_stat.data_quality}}</view>
+    <view class="source muted">数据口径：{{qualitySummary}}（官方数据带来源与更新时间；Mock 仍标注"示例数据"）</view>
+    <view class="source muted" wx:for="{{statRows}}" wx:key="year" wx:for-item="src">
+      {{src.year}}年来源：{{src.sourceName}} · 更新于 {{src.updatedAt}}
+    </view>
   </view>
 </view>
 

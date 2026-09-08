@@ -26,20 +26,35 @@ def main() -> int:
                 params={
                     "province": "上海",
                     "discipline_gate": "工学",
-                    "min_avg_score": 340,
                     "year": 2025,
                 },
             ).json()
             assert filtered["total"] > 0
             print("PASS institution-majors filter")
 
-            detail = client.get(f"{API}/institution-majors/im-001", params={"year": 2025}).json()
+            detail_rows = client.get(
+                f"{API}/institution-majors",
+                params={"keyword": "清华大学", "year": 2025, "page_size": 100},
+            ).json()
+            assert detail_rows["items"]
+            detail = client.get(
+                f"{API}/institution-majors/{detail_rows['items'][0]['id']}",
+                params={"year": 2025},
+            ).json()
             assert len(detail["admission_stats"]) >= 1
             print("PASS institution-major detail")
 
+            compare_rows = client.get(
+                f"{API}/institution-majors",
+                params={"year": 2025, "page_size": 30},
+            ).json()
+            assert compare_rows["total"] >= 3
             compare = client.get(
                 f"{API}/institution-majors/compare",
-                params={"ids": "im-001,im-008,im-010", "year": 2025},
+                params={
+                    "ids": ",".join(item["id"] for item in compare_rows["items"][:3]),
+                    "year": 2025,
+                },
             ).json()
             assert compare["count"] == 3
             print("PASS institution-major compare")
