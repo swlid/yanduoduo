@@ -31,7 +31,7 @@ sys.path.insert(0, str(BACKEND))
 # 自划线院校：使用 self_line（学校复试基本线）；非自划线：使用 college_line。
 SELF_DRAW_CODES = {"10001", "10003", "10246", "10248", "10284", "10286", "10335", "10486"}
 # 按“分专业/分培养单位”公布复试线的院校（非自划线口径，写 college_line）
-PER_MAJOR_SCHOOLS = {"10269", "10337", "10338", "10288", "10272", "10293"}
+PER_MAJOR_SCHOOLS = {"10269", "10337", "10338", "10288", "10272", "10293", "10701"}
 
 # 每所院校：major -> [2024, 2025, 2026 总分线]（None 表示当年官方未按该口径单列，不建行）
 LINES = {
@@ -162,7 +162,13 @@ LINES = {
         "020204": [342, 323, 356],  # 020200 应用经济学口径
         "040100": [376, 341, 347],
     },
+    "10701": {  # 西安电子科技大学（仅追加通信工程学院 081000；计算机学院组合沿用试点批次）
+        "081000": [None, None, 345],
+    },
 }
+
+# 这些院校在既有批次中已有官方组合，本脚本只做追加、不改动/归档其存量组合。
+EXEMPT_SCHOOLS = {"10701"}
 
 # 培养单位：缺省为“校线口径”（自划线院校按学科门类/类别登记）；有官方分学院口径时按学院登记。
 FACULTIES = {
@@ -222,6 +228,9 @@ FACULTIES = {
         "085404": "计算机学院",
         "020204": "经济学院（应用经济学口径）",
         "040100": "教育科学与技术学院",
+    },
+    "10701": {
+        "081000": "通信工程学院",
     },
 }
 
@@ -421,6 +430,12 @@ SOURCES = {
             "url": "https://yzb.njupt.edu.cn/2026/0529/c7813a302875/page.htm",
         },
     },
+    "10701": {
+        2026: {
+            "name": "西安电子科技大学通信工程学院",
+            "url": "https://ste.xidian.edu.cn/info/1337/14876.htm",
+        },
+    },
 }
 
 NAMES = {
@@ -437,6 +452,7 @@ NAMES = {
     "10486": "武汉大学",
     "10288": "南京理工大学",
     "10293": "南京邮电大学",
+    "10701": "西安电子科技大学",
 }
 
 MAJOR_NAMES = {
@@ -608,7 +624,7 @@ def append_fact_sheets() -> None:
                 )
                 if code == "10003":
                     note = "研招网官方存档核录" if year in {2024, 2025} else "清华研招官网PDF核录"
-                if code in {"10272", "10288", "10338"}:
+                if code in {"10272", "10288", "10338", "10701"}:
                     note = "官方网页表格逐字核录（分专业口径）"
                 if code == "10337":
                     note = "官方分数线原图本地OCR核录"
@@ -710,7 +726,7 @@ def main() -> int:
     from app.models import AdmissionStat, Institution, InstitutionMajor, Major
 
     official_pairs = set(all_combos())
-    official_codes = set(LINES)
+    official_codes = set(LINES) - EXEMPT_SCHOOLS
 
     with TestClient(app) as client:
         session = SessionLocal()
@@ -780,6 +796,7 @@ def main() -> int:
             ("武汉大学", 2025, 8),
             ("武汉大学", 2026, 7),
             ("南京邮电大学", 2026, 5),
+            ("西安电子科技大学", 2026, 1),
         ]:
             resp = client.get(
                 "/api/v1/institution-majors",
