@@ -1,8 +1,10 @@
-"""真实数据批次导入 v0.3（统一脚本）。
+"""真实数据批次导入（统一脚本，v0.4）。
 
-批次内容：北京大学 / 清华大学 / 复旦大学 / 上海交通大学 / 南京大学 /
-东南大学 / 华东师范大学，2024-2026 官方复试分数线（含各校实际公布口径），
-共约 181 条；与既有试点 61 条同库（合计约 242 条）。
+v0.3：北京大学 / 清华大学 / 复旦大学 / 上海交通大学 / 南京大学 /
+东南大学 / 华东师范大学，2024-2026 官方复试分数线 181 条。
+v0.4 追加：上海财经大学 / 浙江工业大学 / 浙江理工大学 / 武汉大学 /
+南京理工大学，按各校官方公布口径核录（官方未公布的年份/专业不建行）。
+与既有试点 61 条同库，官方数据累计约 319 条。
 
 口径：只录官方公开可核实字段；官方未公布即不建行或标“暂无”。
 用法：python scripts/ingest_official_batch.py
@@ -27,7 +29,9 @@ os.environ["SQL_ECHO"] = "0"
 sys.path.insert(0, str(BACKEND))
 
 # 自划线院校：使用 self_line（学校复试基本线）；非自划线：使用 college_line。
-SELF_DRAW_CODES = {"10001", "10003", "10246", "10248", "10284", "10286", "10335"}
+SELF_DRAW_CODES = {"10001", "10003", "10246", "10248", "10284", "10286", "10335", "10486"}
+# 按“分专业/分培养单位”公布复试线的院校（非自划线口径，写 college_line）
+PER_MAJOR_SCHOOLS = {"10269", "10337", "10338", "10288", "10272", "10293"}
 
 # 每所院校：major -> [2024, 2025, 2026 总分线]（None 表示当年官方未按该口径单列，不建行）
 LINES = {
@@ -107,6 +111,57 @@ LINES = {
         "030100": [359, 338, 356],
         "040100": [376, 343, 365],
     },
+    "10272": {  # 上海财经大学（按学科门类校线，非自划线）
+        "020204": [338, 323, 324],
+        "025100": [338, 323, 324],
+        "030100": [331, 323, 321],
+    },
+    "10337": {  # 浙江工业大学（分专业复试线，非自划线）
+        "081000": [313, 260, 264],
+        "081200": [309, 278, 293],
+        "085404": [282, None, 300],
+        "085405": [275, 270, 264],
+        "040100": [350, 341, 347],
+        "030100": [331, 323, 321],
+        "025100": [338, 349, 324],
+        "020204": [338, 323, 264],  # 020200 应用经济学口径
+    },
+    "10338": {  # 浙江理工大学（2026 分专业复试线；2024/2025 官网未公布）
+        "081200": [None, None, 264],
+        "085404": [None, None, 338],
+        "080200": [None, None, 264],
+        "081000": [None, None, 264],
+        "025100": [None, None, 324],
+        "030100": [None, None, 321],
+        "020204": [None, None, 324],  # 020200 应用经济学口径
+    },
+    "10486": {  # 武汉大学（自划线，分培养单位复试线；2026 待原图核录）
+        "081200": [350, 325, None],
+        "081000": [315, 310, None],
+        "080200": [300, 290, None],
+        "085404": [335, 320, None],
+        "085405": [315, 310, None],
+        "020204": [350, 340, None],  # 0202 应用经济学口径
+        "025100": [338, 370, None],
+        "030100": [376, 335, None],
+    },
+    "10288": {  # 南京理工大学（分专业复试线，非自划线）
+        "081200": [350, 335, 330],
+        "081000": [None, 320, 330],
+        "080200": [None, 305, 350],
+        "085404": [355, 340, 360],
+        "085405": [355, 340, 360],
+        "020204": [346, 354, 381],  # 020200 应用经济学口径
+        "025100": [366, 352, 365],
+        "030100": [345, 323, 343],
+    },
+    "10293": {  # 南京邮电大学（分专业复试线 + 官方报考录取表）
+        "081000": [307, 300, 315],
+        "081200": [341, 289, 303],
+        "085404": [339, 339, 339],
+        "020204": [342, 323, 356],  # 020200 应用经济学口径
+        "040100": [376, 341, 347],
+    },
 }
 
 # 培养单位：缺省为“校线口径”（自划线院校按学科门类/类别登记）；有官方分学院口径时按学院登记。
@@ -121,6 +176,72 @@ FACULTIES = {
         "030100": "法学院",
         "040100": "教育学部",
     },
+    "10272": {},
+    "10337": {
+        "081000": "信息工程学院",
+        "081200": "计算机科学与技术学院（软件学院）",
+        "085404": "计算机科学与技术学院（软件学院）",
+        "085405": "计算机科学与技术学院（软件学院）",
+        "040100": "教育学院（职业技术教育学院）",
+        "030100": "法学院",
+        "025100": "经济学院",
+        "020204": "经济学院（应用经济学口径）",
+    },
+    "10338": {
+        "081200": "计算机科学与技术学院（人工智能学院）",
+        "085404": "计算机科学与技术学院（人工智能学院）",
+        "080200": "机械工程学院",
+        "081000": "信息科学与工程学院（网络空间安全学院）",
+        "025100": "经济管理学院",
+        "030100": "法学与人文学院",
+        "020204": "经济管理学院（应用经济学口径）",
+    },
+    "10486": {
+        "081200": "计算机学院",
+        "081000": "电子信息学院",
+        "080200": "动力与机械学院",
+        "085404": "计算机学院",
+        "085405": "电子信息学院",
+        "020204": "经济与管理学院（应用经济学口径）",
+        "025100": "经济与管理学院",
+        "030100": "法学院",
+    },
+    "10288": {
+        "081200": "计算机科学与工程学院",
+        "081000": "电子工程与光电技术学院",
+        "080200": "机械工程学院",
+        "085404": "计算机科学与工程学院",
+        "085405": "计算机科学与工程学院",
+        "020204": "经济管理学院（应用经济学口径）",
+        "025100": "经济管理学院",
+        "030100": "知识产权学院",
+    },
+    "10293": {
+        "081000": "通信与信息工程学院",
+        "081200": "计算机学院",
+        "085404": "计算机学院",
+        "020204": "经济学院（应用经济学口径）",
+        "040100": "教育科学与技术学院",
+    },
+}
+
+# 官方报考录取明细（(院校, 专业, 年份) -> 字段），仅在有官方公开数据时填写。
+DETAILS = {
+    ("10293", "081000", 2024): {"applicants": 715, "admitted": 145, "recommended": 41, "national_line_reached": 327},
+    ("10293", "081200", 2024): {"applicants": 586, "admitted": 50, "recommended": 13, "national_line_reached": 218},
+    ("10293", "085404", 2024): {"applicants": 1809, "admitted": 225, "recommended": 3, "national_line_reached": 832},
+    ("10293", "020204", 2024): {"applicants": 50, "admitted": 11, "recommended": 5, "national_line_reached": 16},
+    ("10293", "040100", 2024): {"applicants": 51, "admitted": 14, "recommended": 0, "national_line_reached": 24},
+    ("10293", "081000", 2025): {"applicants": 612, "admitted": 150, "recommended": 50, "national_line_reached": 313},
+    ("10293", "081200", 2025): {"applicants": 253, "admitted": 50, "recommended": 17, "national_line_reached": 104},
+    ("10293", "085404", 2025): {"applicants": 1728, "admitted": 246, "recommended": 15, "national_line_reached": 906},
+    ("10293", "020204", 2025): {"applicants": 48, "admitted": 12, "recommended": 4, "national_line_reached": 14},
+    ("10293", "040100", 2025): {"applicants": 56, "admitted": 10, "recommended": 0, "national_line_reached": 3},
+    ("10293", "081000", 2026): {"applicants": 543, "admitted": 152, "recommended": 38, "national_line_reached": 311},
+    ("10293", "081200", 2026): {"applicants": 292, "admitted": 61, "recommended": 33, "national_line_reached": 122},
+    ("10293", "085404", 2026): {"applicants": 1496, "admitted": 243, "recommended": 27, "national_line_reached": 919},
+    ("10293", "020204", 2026): {"applicants": 64, "admitted": 14, "recommended": 5, "national_line_reached": 24},
+    ("10293", "040100", 2026): {"applicants": 21, "admitted": 9, "recommended": 0, "national_line_reached": 0},
 }
 
 YEARS = [2024, 2025, 2026]
@@ -224,6 +345,78 @@ SOURCES = {
             "url": "https://yjszs.ecnu.edu.cn/6b/94/c43463a748436/page.htm",
         },
     },
+    "10272": {
+        2024: {
+            "name": "上海财经大学研究生院",
+            "url": "https://gs.sufe.edu.cn/Home/Detail/7586",
+        },
+        2025: {
+            "name": "上海财经大学研究生院",
+            "url": "https://gs.sufe.edu.cn/Home/Detail/7812",
+        },
+        2026: {
+            "name": "上海财经大学研究生院",
+            "url": "https://gs.sufe.edu.cn/Home/Detail/7976",
+        },
+    },
+    "10337": {
+        2024: {
+            "name": "浙江工业大学研究生招生网",
+            "url": "http://www.yz.zjut.edu.cn/2024/0328/c4167a256203/page.htm",
+        },
+        2025: {
+            "name": "浙江工业大学研究生招生网",
+            "url": "http://www.yz.zjut.edu.cn/2025/0327/c4270a301258/page.htm",
+        },
+        2026: {
+            "name": "浙江工业大学研究生招生网",
+            "url": "http://www.yz.zjut.edu.cn/2026/0328/c4270a329985/page.htm",
+        },
+    },
+    "10338": {
+        2026: {
+            "name": "浙江理工大学研究生招生网",
+            "url": "https://gradadmission.zstu.edu.cn/info/1011/3343.htm",
+        },
+    },
+    "10486": {
+        2024: {
+            "name": "武汉大学研究生招生信息网",
+            "url": "https://wdyz.whu.edu.cn/info/1026/6373.htm",
+        },
+        2025: {
+            "name": "武汉大学研究生招生信息网",
+            "url": "https://wdyz.whu.edu.cn/info/1026/7293.htm",
+        },
+    },
+    "10288": {
+        2024: {
+            "name": "南京理工大学研究生招生网",
+            "url": "https://gs.njust.edu.cn/c3/64/c14687a312164/page.htm",
+        },
+        2025: {
+            "name": "南京理工大学研究生招生网",
+            "url": "https://gs.njust.edu.cn/zsw/63/17/c4585a353047/page.htm",
+        },
+        2026: {
+            "name": "南京理工大学研究生招生网",
+            "url": "https://gs.njust.edu.cn/zsw/84/58/c4585a361560/page.htm",
+        },
+    },
+    "10293": {
+        2024: {
+            "name": "南京邮电大学研究生招生信息网",
+            "url": "https://yzb.njupt.edu.cn/2024/0622/c7813a269521/page.htm",
+        },
+        2025: {
+            "name": "南京邮电大学研究生招生信息网",
+            "url": "https://yzb.njupt.edu.cn/2025/0526/c7813a284312/page.htm",
+        },
+        2026: {
+            "name": "南京邮电大学研究生招生信息网",
+            "url": "https://yzb.njupt.edu.cn/2026/0529/c7813a302875/page.htm",
+        },
+    },
 }
 
 NAMES = {
@@ -234,6 +427,12 @@ NAMES = {
     "10284": "南京大学",
     "10286": "东南大学",
     "10269": "华东师范大学",
+    "10272": "上海财经大学",
+    "10337": "浙江工业大学",
+    "10338": "浙江理工大学",
+    "10486": "武汉大学",
+    "10288": "南京理工大学",
+    "10293": "南京邮电大学",
 }
 
 MAJOR_NAMES = {
@@ -289,6 +488,18 @@ def scope_and_metrics(code: str, major: str) -> tuple[str, dict]:
             "official_line_label": "华东师大分学院专业复试线（校线）",
             "line_meaning": "达到该总分且单科不低于国家A线方可参加复试；计划口径见当年原文。",
         }
+    if code in PER_MAJOR_SCHOOLS:
+        return "school_per_major_line", {
+            "official_line_scope": "school_per_major_line",
+            "official_line_label": "学校分专业（分学院）复试线",
+            "line_meaning": "以官方公布的分专业复试线为准；未单列/未达线的专业当年不生成记录。",
+        }
+    if code == "10486":
+        return "self_draw_per_college_line", {
+            "official_line_scope": "self_draw_per_college_line",
+            "official_line_label": "自划线院校分培养单位复试线",
+            "line_meaning": "武汉大学按培养单位/专业公布复试线；学院可在学校基本要求上自主划定。",
+        }
     if code in SELF_DRAW_CODES:
         return "school_basic_line_self_draw_category", {
             "official_line_scope": "school_basic_line_self_draw_category",
@@ -310,14 +521,39 @@ def build_admission_stat_csv() -> bytes:
                 if line is None:
                     continue
                 source = SOURCES[code][year]
+                detail = DETAILS.get((code, major, year), {})
+                row_metrics = dict(metrics)
+                if detail:
+                    row_metrics["official_admission_counts_note"] = (
+                        "报名/达国家线/推免/录取人数来自官方分专业报考录取情况表；"
+                        "报录比由官方报名人数÷录取人数计算。"
+                    )
+                    if "national_line_reached" in detail:
+                        row_metrics["national_line_reached_count"] = detail["national_line_reached"]
+                report_rate = ""
+                if detail.get("applicants") and detail.get("admitted"):
+                    report_rate = round(detail["applicants"] / detail["admitted"], 2)
                 row = {
                     "institution_code": code,
                     "major_code": major,
                     "year": year,
+                    "plan_total": "",
+                    "plan_unified": "",
+                    "recommended_count": detail.get("recommended", ""),
+                    "recommended_ratio": "",
+                    "applicant_count": detail.get("applicants", ""),
+                    "admitted_count": detail.get("admitted", ""),
+                    "report_rate": report_rate,
+                    "reexam_count": "",
+                    "reexam_admit_rate": "",
+                    "max_score": "",
+                    "min_score": "",
+                    "avg_score": "",
                     "self_line": line if code in SELF_DRAW_CODES else "",
                     "college_line": "" if code in SELF_DRAW_CODES else line,
                     "national_line": "",
-                    "metrics": json.dumps(metrics, ensure_ascii=False),
+                    "transfer_quota": "",
+                    "metrics": json.dumps(row_metrics, ensure_ascii=False),
                     "source_url": source["url"],
                     "source_name": source["name"],
                     "source_year": year,
@@ -368,12 +604,23 @@ def append_fact_sheets() -> None:
                 )
                 if code == "10003":
                     note = "研招网官方存档核录" if year in {2024, 2025} else "清华研招官网PDF核录"
+                if code in {"10272", "10288", "10338"}:
+                    note = "官方网页表格逐字核录（分专业口径）"
+                if code == "10337":
+                    note = "官方分数线原图本地OCR核录"
+                if code == "10486":
+                    note = "官方PDF/网页表格核录（分培养单位口径）"
+                scope_label = (
+                    "分专业复试线"
+                    if code in PER_MAJOR_SCHOOLS
+                    else ("自划线-分培养单位复试线" if code == "10486" else "学校复试基本线(学科门类/类别)")
+                )
                 verified_rows.append(
                     {
                         "院校代码": code,
                         "院校": NAMES[code],
                         "年份": year,
-                        "口径": "分专业复试线" if code == "10269" else "学校复试基本线(学科门类/类别)",
+                        "口径": scope_label,
                         "专业/学科": MAJOR_NAMES[major],
                         "总分线": line,
                         "官方URL": SOURCES[code][year]["url"],
@@ -385,7 +632,7 @@ def append_fact_sheets() -> None:
                         "院校代码": code,
                         "院校": NAMES[code],
                         "年份": year,
-                        "口径": "分专业复试线" if code == "10269" else "学校复试基本线(学科门类/类别)",
+                        "口径": scope_label,
                         "专业/学科": MAJOR_NAMES[major],
                         "总分线": line,
                         "官方URL": SOURCES[code][year]["url"],
@@ -394,9 +641,10 @@ def append_fact_sheets() -> None:
                     }
                 )
 
-    with verified_path.open("a", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=list(verified_rows[0].keys()))
-        writer.writerows(verified_rows)
+    if verified_rows:
+        with verified_path.open("a", encoding="utf-8", newline="") as fh:
+            writer = csv.DictWriter(fh, fieldnames=list(verified_rows[0].keys()))
+            writer.writerows(verified_rows)
 
     existing_seq = set()
     if review_path.exists():
@@ -429,14 +677,16 @@ def append_fact_sheets() -> None:
             for year, source in sources.items():
                 if (NAMES[code], str(year)) in existing_index:
                     continue
-                read_type = (
-                    "PDF附件"
-                    if code in {"10001", "10246", "10248", "10284", "10286"} or year in {2024, 2025, 2026}
-                    and code == "10269"
-                    else "文字"
-                )
-                if code == "10003":
+                if code == "10337":
+                    read_type = "图片(OCR)"
+                elif code in {"10003"}:
                     read_type = "文字/图片(OCR)" if year in {2024, 2025} else "PDF附件"
+                elif code in {"10272", "10338", "10288"}:
+                    read_type = "文字"
+                elif code in {"10001", "10246", "10248", "10284", "10286", "10269", "10486"}:
+                    read_type = "PDF附件"
+                else:
+                    read_type = "文字"
                 fh.write(
                     f"{NAMES[code]},复试基本分数线,{year},{source['url']},{read_type},已核对,"
                     f"官方原文核录；原始存证见 data/official/raw/\n"
@@ -445,7 +695,7 @@ def append_fact_sheets() -> None:
 
 def main() -> int:
     total = expected_stat_count()
-    print(f"增量导入（保留既有试点数据）：{DB_FILE}，预计新增官方招录行：{total}")
+    print(f"增量导入（保留既有批次数据）：{DB_FILE}，本批可核官方招录行：{total}")
     if not DB_FILE.exists():
         raise SystemExit("开发库不存在，请先运行 backend/app/seed.py 或既有试点脚本生成基础库。")
 
@@ -511,24 +761,30 @@ def main() -> int:
         print(f"REVIEW approved: {total} 条")
 
         # 公开接口抽查：每校 2026 至少能查回官方数据
-        for keyword, expected in [
-            ("北京大学", 9),
-            ("清华大学", 9),
-            ("复旦大学", 9),
-            ("上海交通大学", 8),
-            ("南京大学", 9),
-            ("东南大学", 9),
-            ("华东师范大学", 6),
+        for keyword, year, expected in [
+            ("北京大学", 2026, 9),
+            ("清华大学", 2026, 9),
+            ("复旦大学", 2026, 9),
+            ("上海交通大学", 2026, 9),
+            ("南京大学", 2026, 9),
+            ("东南大学", 2026, 9),
+            ("华东师范大学", 2026, 6),
+            ("上海财经大学", 2026, 3),
+            ("浙江工业大学", 2026, 8),
+            ("浙江理工大学", 2026, 7),
+            ("南京理工大学", 2026, 8),
+            ("武汉大学", 2025, 8),
+            ("南京邮电大学", 2026, 5),
         ]:
             resp = client.get(
                 "/api/v1/institution-majors",
-                params={"keyword": keyword, "year": 2026, "page_size": 100},
+                params={"keyword": keyword, "year": year, "page_size": 100},
             ).json()
             official = [
                 item for item in resp["items"]
                 if item["latest_stat"] and item["latest_stat"]["data_quality"] == "official"
             ]
-            print(f"{keyword} 2026 官方组合数：", len(official))
+            print(f"{keyword} {year} 官方组合数：", len(official))
             assert len(official) >= expected
 
         # 测评推荐应命中多所真实数据（含新批次院校）
@@ -551,7 +807,7 @@ def main() -> int:
 
     append_fact_sheets()
     print("fact sheets appended")
-    print("OK：真实数据批次 v0.3 导入与审核完成。")
+    print("OK：真实数据批次 v0.4 导入与审核完成。")
     return 0
 
 

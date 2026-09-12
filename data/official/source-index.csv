@@ -11,7 +11,7 @@
 西安电子科技大学,计算机学院复试线,2024,https://cs.xidian.edu.cn/info/1026/16334.htm,文字/图片,部分可核,081200=340与085404(01)=315有官方转载一致;待图片原表复核
 西安电子科技大学,计算机学院复试线,2025,https://cs.xidian.edu.cn/info/2082/19234.htm,图片,已核(OCR),081200=330/085404(01)=345/085405=330;本地OCR原图核录
 西安电子科技大学,计算机学院复试线,2026,https://cs.xidian.edu.cn/info/2542/23764.htm,图片,已核(OCR),081200=335/085404(01)=310/085405=310;本地OCR原图核录,转载310/335/350均以原图为准
-南京理工大学,2026复试基本要求,2026,https://gs.njust.edu.cn/zsw/83/f8/c4587a361464/page.htm,PDF附件,待核,分数线正文为两个PDF附件需解析
+南京理工大学,2026复试基本要求,2026,https://gs.njust.edu.cn/zsw/83/f8/c4587a361464/page.htm,PDF附件,已核对,两个官方PDF附件已下载解析并核录2026分专业线
 上海大学,复试分数线,2024,https://gmis.shu.edu.cn/PHP/Pub/SS_Fengshuxian.php?Year=2024,文字,已核对,官方历年复试线网页正文逐字核录;081200/080200/025100/030100共4个单列专业线全部核录
 上海大学,复试分数线,2025,https://gmis.shu.edu.cn/PHP/Pub/SS_Fengshuxian.php?Year=2025,文字,已核对,官方历年复试线网页正文逐字核录;6个单列专业线全部核录
 上海大学,复试分数线,2026,https://gmis.shu.edu.cn/PHP/Pub/SS_Fengshuxian.php?Year=2026,文字,已核对,官方历年复试线网页正文逐字核录;6个单列专业线全部核录
@@ -36,3 +36,17 @@
 华东师范大学,复试基本分数线,2024,https://yjszs.ecnu.edu.cn/_upload/article/files/db/d7/3bd3f224457babca17731a7d8310/3ff99930-f6e0-488d-9ef9-aebdf36d875c.pdf,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
 华东师范大学,复试基本分数线,2025,https://yjszs.ecnu.edu.cn/58/c8/c43463a678088/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
 华东师范大学,复试基本分数线,2026,https://yjszs.ecnu.edu.cn/6b/94/c43463a748436/page.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+上海财经大学,复试基本分数线,2024,https://gs.sufe.edu.cn/Home/Detail/7586,文字,已核对,官方原文核录；原始存证见 data/official/raw/
+上海财经大学,复试基本分数线,2025,https://gs.sufe.edu.cn/Home/Detail/7812,文字,已核对,官方原文核录；原始存证见 data/official/raw/
+上海财经大学,复试基本分数线,2026,https://gs.sufe.edu.cn/Home/Detail/7976,文字,已核对,官方原文核录；原始存证见 data/official/raw/
+浙江工业大学,复试基本分数线,2024,http://www.yz.zjut.edu.cn/2024/0328/c4167a256203/page.htm,图片(OCR),已核对,官方原文核录；原始存证见 data/official/raw/
+浙江工业大学,复试基本分数线,2025,http://www.yz.zjut.edu.cn/2025/0327/c4270a301258/page.htm,图片(OCR),已核对,官方原文核录；原始存证见 data/official/raw/
+浙江工业大学,复试基本分数线,2026,http://www.yz.zjut.edu.cn/2026/0328/c4270a329985/page.htm,图片(OCR),已核对,官方原文核录；原始存证见 data/official/raw/
+浙江理工大学,复试基本分数线,2026,https://gradadmission.zstu.edu.cn/info/1011/3343.htm,文字,已核对,官方原文核录；原始存证见 data/official/raw/
+武汉大学,复试基本分数线,2024,https://wdyz.whu.edu.cn/info/1026/6373.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+武汉大学,复试基本分数线,2025,https://wdyz.whu.edu.cn/info/1026/7293.htm,PDF附件,已核对,官方原文核录；原始存证见 data/official/raw/
+南京理工大学,复试基本分数线,2024,https://gs.njust.edu.cn/c3/64/c14687a312164/page.htm,文字,已核对,官方原文核录；原始存证见 data/official/raw/
+南京理工大学,复试基本分数线,2025,https://gs.njust.edu.cn/zsw/63/17/c4585a353047/page.htm,文字,已核对,官方原文核录；原始存证见 data/official/raw/
+南京邮电大学,复试基本分数线,2024,https://yzb.njupt.edu.cn/2024/0622/c7813a269521/page.htm,文字,已核对,官方原文核录；原始存证见 data/official/raw/
+南京邮电大学,复试基本分数线,2025,https://yzb.njupt.edu.cn/2025/0526/c7813a284312/page.htm,文字,已核对,官方原文核录；原始存证见 data/official/raw/
+南京邮电大学,复试基本分数线,2026,https://yzb.njupt.edu.cn/2026/0529/c7813a302875/page.htm,文字,已核对,官方原文核录；原始存证见 data/official/raw/

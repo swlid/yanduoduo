@@ -1,0 +1,841 @@
+﻿﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=2.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+<title>武汉大学研究生招生信息网</title><meta name="pageType" content="1">
+<meta name="pageTitle" content="武汉大学研究生招生信息网">
+
+
+<META Name="SiteName" Content="武汉大学研究生招生信息网" />
+<META Name="SiteDomain" Content="wdyz.whu.edu.cn" />
+
+<link type="text/css" rel="stylesheet" href="styles/base.css" />
+<link type="text/css" rel="stylesheet" href="styles/main.css" />
+<link type="text/css" rel="stylesheet" href="styles/swiper.min.css" />
+<link type="text/css" rel="stylesheet" href="styles/mobile.css" />
+<link type="text/css" rel="stylesheet" href="styles/animate.min.css" />
+<!--Announced by Visual SiteBuilder 9-->
+<link rel="stylesheet" type="text/css" href="_sitegray/_sitegray_d.css" />
+<script language="javascript" src="_sitegray/_sitegray.js"></script>
+<!-- CustomerNO:7765626265723230747f475750515742000300014351 -->
+<link rel="stylesheet" type="text/css" href="index.vsb.css" />
+<script type="text/javascript" src="/system/resource/js/counter.js"></script>
+<script type="text/javascript">_jsq_(1001,'/index.jsp',-1,1956703155)</script>
+</head>
+
+<body class="bodyHome">
+<div class="yz-header-warp">
+  <div class="yz-contain-box">
+    <div class="yz-contain-padding">
+      <div class="clearfix">
+        <div class="yz-logo"> <a href="index.htm" target=""><img src="images/logo.png" /></a></div>
+        <div class="yz-header-right-box"> <img src="images/xx.png" />
+          <div class="yz-search-box clearfix"><!-- 3.1.3版本 -->
+
+
+
+<script language="javascript" src="/system/resource/js/base64.js"></script><script language="javascript" src="/system/resource/js/jquery/jquery-latest.min.js"></script><script language="javascript" src="/system/resource/vue/vue.js"></script><script language="javascript" src="/system/resource/vue/bluebird.min.js"></script><script language="javascript" src="/system/resource/vue/axios.js"></script><script language="javascript" src="/system/resource/vue/polyfill.js"></script><script language="javascript" src="/system/resource/vue/token.js"></script><LINK href="/system/resource/vue/static/element/index.css" type="text/css" rel="stylesheet"><script language="javascript" src="/system/resource/vue/static/element/index.js"></script><script language="javascript" src="/system/resource/vue/static/public.js"></script><script language="javascript" src="/system/resource/openapp/search/js/containsHtmlTags.js"></script><script language="javascript" src="/system/resource/openapp/search/layui/layui.js"></script><style>
+    #appu0 .qwss{
+         height: 31px;
+        font-size: 12px;
+        min-width: 190px;
+        max-width: 600px;
+        width: 60%;
+        margin-top: -15px;
+        outline: none;
+        padding-left: 10px;
+        border-radius: 2px;
+        border: 1px solid #e4e7ed;}
+    #appu0 .tj{
+       padding-left: 6px;
+        letter-spacing: 5px;
+        color: white;
+        min-width: 53px;
+        max-width: 150px;
+        height: 32px;
+        border: 0;
+        border-radius: 2px;
+        background-color: #1890FF;
+        position: relative;
+        top: 1px;
+        width: 20%;
+        margin-top: -15px;}
+</style>
+<div id="divu0"></div>
+<script type="text/html" id="htmlu0">
+    <div id="appu0">
+        <div v-if="!isError">
+            <input type="text" class="yz-txt" placeholder="全文搜索" autocomplete=off v-model=query.keyWord @keyup.enter="onSubmit">
+            <input class="yz-btn" name="submit_button" type="button" value="Search" v-on:click="onSubmit()"/>
+        </div>
+        <div v-if="isError" style="color: #b30216; font-size:18px;text-align: center;padding:20px;">
+            应用维护中！
+        </div>
+    </div>
+</script>
+<script>
+    $("#divu0").html($("#htmlu0").text());
+</script>
+<script>
+    var appOwner = "1956703155";
+    var token = 'tourist';
+    var urlPrefix = "/aop_component/";
+
+    jQuery.support.cors = true;
+    $.ajaxSetup({
+        beforeSend: function (request, settings) {
+            request.setRequestHeader("Authorization", token);
+            request.setRequestHeader("owner", appOwner);
+        }
+    });
+
+    new Vue({
+        el: "#appu0",
+        data: function () {
+            return {
+                query: {
+                    keyWord: "",//搜索关键词
+                    owner: appOwner,
+                    token: token,
+                    urlPrefix: urlPrefix,
+                    lang:"i18n_zh_CN"
+                },
+                isError: false
+            }
+        },
+        mounted: function () {
+            var _this = this;
+            // _this.init();
+        },
+        methods: {
+            init: function(){
+                $.ajax({
+                    url: "/aop_component//webber/search/test",
+                    type: "get",
+                    success: function (response) {
+                        if (response.code == "0000") {
+                        } else if (response.code == "220") {
+                            _this.isError = true;
+                            console.log(response);
+                        } else if (!response.code) {
+                            _this.isError = true;
+                            console.log(response);
+                        }
+                    },
+                    error: function (response) {
+                        _this.isError = true;
+                    }
+                });
+            },
+            onSubmit: function (e) {
+                var url = "/aop_views/search/modules/resultpc/soso.html";
+                if ("10" == "1" || "10" == "2") {
+                    url = "" + url;
+                }
+                var _this = this;
+                var query = _this.query;
+                if (url.indexOf("?") > -1) {
+                    url = url.split("?")[0];
+                }
+                if (query.keyWord) {
+                    var query = new Base64().encode(JSON.stringify(query));
+                    window.open(url + "?query=" + query);
+                } else {
+                    alert("请填写搜索内容")
+                }
+            },
+        }
+    })
+</script>
+
+<script>
+   var appElementu0 = document.querySelector("#appu0");
+   if (appElementu0 && appElementu0.__vue__) {
+
+   } else {
+      $("#divu0").html($("#htmlu0").text());
+      var appOwner = "1956703155";   
+      var urlPrefix = "/aop_component/";
+      var ifLogin="";
+      var token = ifLogin=='true'?gettoken(10, true).trim():'tourist';
+      if (containsHtmlTags(token) || !token) { 
+         token = 'tourist';
+      }
+      jQuery.support.cors = true;
+      $.ajaxSetup({
+        beforeSend: function (request, settings) {
+            request.setRequestHeader("Authorization", token);
+            request.setRequestHeader("owner", appOwner);
+        }
+      });
+      var queryInfou0 = {
+        query: {
+            keyWord: "",//搜索关键词
+            owner: appOwner,
+            token: token,
+            urlPrefix: urlPrefix,
+            lang:"i18n_zh_CN"
+        },
+        isError: false
+      };
+      function keyUpFunu0(e){
+        var theEvent = e || window.event;
+        var keyCode = theEvent.keyCode || theEvent.which || theEvent.charCode;
+        if(keyCode == 13){
+          onSubmitu0();
+        }
+      };
+
+      function onSubmitu0(e) {
+        queryInfou0.query.keyWord= $("#appu0  .qwss").val();
+        
+        var url = "/aop_views/search/modules/resultpc/soso.html";      
+        if ("10" == "1" || "10" == "2") {
+           url = "" + url;
+        }
+        var query = queryInfou0.query;
+        if (url.indexOf("?") > -1) {
+            url = url.split("?")[0];
+        }
+        if (query.keyWord) {
+            var query = new Base64().encode(JSON.stringify(query));
+            window.open(url + "?query=" + query);
+        } else {
+            alert("请填写搜索内容")
+        }
+      };
+   }
+</script></div>
+        </div>
+       </div>
+       <button type="button" class="navbar-toggle"> <span class="icon-bar icon-bar1"></span> <span class="icon-bar icon-bar2"></span> <span class="icon-bar icon-bar3"></span> </button>
+    </div>
+  </div>
+</div>
+<div class="yz-nav-box">
+  <div class="yz-contain-box">
+    <div class="yz-contain-padding">      <ul class="yz-nav clearfix">
+              <li class="on"><a href="index.htm">首页</a>
+        </li>
+        <li><a href="sszs/ptss.htm">硕士招生</a>
+          <ul class="yz-suNnav">
+            <li><a href="sszs/ptss.htm">普通硕士</a></li>
+            <li><a href="sszs/tms.htm">推免生</a></li>
+            <li><a href="sszs/xly.htm">夏令营</a></li>
+            <li><a href="sszs/zsdt.htm">招生动态</a></li>
+          </ul>
+        </li>
+        <li><a href="bszs/zsjz.htm">博士招生</a>
+          <ul class="yz-suNnav">
+            <li><a href="bszs/zsjz.htm">招生简章</a></li>
+            <li><a href="bszs/zyml.htm">专业目录</a></li>
+            <li><a href="bszs/zsdt.htm">招生动态</a></li>
+          </ul>
+        </li>
+        <li><a href="gatzs/zsjz.htm">港澳台招生</a>
+          <ul class="yz-suNnav">
+            <li><a href="gatzs/zsjz.htm">招生简章</a></li>
+            <li><a href="gatzs/zyml.htm">专业目录</a></li>
+            <li><a href="gatzs/zsdt.htm">招生动态</a></li>
+          </ul>
+        </li>
+        <li><a href="https://www.whu.edu.cn/kxyj/kyjg.htm" target="_blank" href="xxzy/pthxm.htm">学校资源</a>
+          <ul class="yz-suNnav">
+            <li><a href="https://www.whu.edu.cn/kxyj/kyjg.htm" target="_blank" href="xxzy/pthxm.htm">平台和项目</a></li>
+            <li><a href="https://ygb.whu.edu.cn/jlzz.htm" target="_blank" href="xxzy/jzxj.htm">奖助学金</a></li>
+            <li><a href="http://openir.whu.edu.cn/Home" target="_blank" href="xxzy/dsfc.htm">导师风采</a></li>
+            <li><a href="https://oir.whu.edu.cn/" target="_blank" href="xxzy/gjjl.htm">国际交流</a></li>
+          </ul>
+        </li>
+        <li><a href="xxgk/ss.htm">信息公开</a>
+          <ul class="yz-suNnav">
+            <li><a href="xxgk/ss.htm">硕士</a></li>
+            <li><a href="xxgk/bs.htm">博士</a></li>
+            <li><a href="xxgk/gat.htm">港澳台</a></li>
+          </ul>
+        </li>
+        <li><a href="lnxx/blb.htm">历年信息</a>
+          <ul class="yz-suNnav">
+            <li><a href="lnxx/blb.htm">报录比</a></li>
+            <li><a href="lnxx/fsfsx.htm">复试分数线</a></li>
+            <li><a href="lnxx/qt.htm">其他</a></li>
+          </ul>
+        </li>
+        <li><a href="lxwm/lxzb.htm">联系我们</a>
+          <ul class="yz-suNnav">
+            <li><a href="lxwm/lxzb.htm">联系招办</a></li>
+            <li><a href="lxwm/lxxy.htm">联系学院</a></li>
+          </ul>
+        </li>
+        <li style="display:none;"><a href="tzgg.htm">通知公告</a>
+        </li>
+        <li style="display:none;"><a href="mtkwd.htm">媒体看武大</a>
+        </li>
+      </ul>
+    
+
+</div>
+  </div>
+</div>
+<div class="yz-banner"><div class="swiper mySwiper">
+    <div class="swiper-wrapper">    <script language="javascript" src="/system/resource/js/dynclicks.js"></script><div class="swiper-slide" style="background: url(images/2025100101.jpg) center no-repeat;"></div>
+      
+<div class="swiper-slide" style="background: url(images/20251014.jpg) center no-repeat;"></div>
+      
+<div class="swiper-slide" style="background: url(images/banner.jpg) center no-repeat;"></div>
+      
+<div class="swiper-slide" style="background: url(images/2025102301.jpg) center no-repeat;"></div>
+      
+</div>
+    <div class="swiper-pagination"></div>
+  </div></div>
+<div class="yz-contain-box">
+  <div class="yz-contain-padding">
+    <div class="yz-div-box clearfix">
+      <div class="yz-left"><script language="javascript" src="/system/resource/js/centerCutImg.js"></script><script language="javascript" src="/system/resource/js/ajax.js"></script><div class="yz-title-box clearfix">
+          <h3 class="yz-title">通知公告</h3>
+          <i class="yz-line"></i> <a href="tzgg.htm" class="yz-more">MORE</a> </div>
+        <div class="yz-list-box">
+          <div class="yz-list-txt tzgg">
+            <ul>
+              
+<li class="li1 clearfix">
+                <div class="time">
+                  <p class="day">06-30</p>
+                  <p class="year">2026</p>
+                </div>
+                <div class="box">
+                  <p class="title"><a href="info/1031/8053.htm"><span>关于发放2026级研究生录取通知书的通告</span><i class="new-icon"></i></a> </p>
+                  <p class="des"><a href="info/1031/8053.htm">韶华不负，逐梦成行！祝贺各位同学凭借不懈努力如愿进入武汉大学继续学习深造，即将开启崭新的研究生求学篇章。我校2026级研究生录取通知书（以下简称“录取通知书”）即日起已陆续寄出，请各位研究生新生注意查收，并做好入学前的各项准备。一、领取录取通知书的条件1、符合我校招生简章中规定的各项要求；2、进入拟录取名单（已公示无异议），思想政治素质和品德考核合格，且完成录取相关手续；3、定向就业研究生须提交定向单位、...</a> </p>
+                </div>
+              </li>
+              
+<li class="li2 clearfix">
+                <div class="time">
+                  <p class="day">06-09</p>
+                  <p class="year">2026</p>
+                </div>
+                <div class="box">
+                  <p class="title"><a href="info/1031/8033.htm"><span>成都站-武汉大学研究生招生咨询会（6月11日）</span><i class="new-icon"></i></a> </p>
+                  <p class="des"><a href="info/1031/8033.htm"></a> </p>
+                </div>
+              </li>
+              
+<li class="li3 clearfix">
+                <div class="time">
+                  <p class="day">06-08</p>
+                  <p class="year">2026</p>
+                </div>
+                <div class="box">
+                  <p class="title"><a href="info/1031/8023.htm"><span>西安站-武汉大学研究生招生咨询会（6月17日）</span><i class="new-icon"></i></a> </p>
+                  <p class="des"><a href="info/1031/8023.htm"></a> </p>
+                </div>
+              </li>
+              
+<li class="li4 clearfix">
+                <div class="time">
+                  <p class="day">06-01</p>
+                  <p class="year">2026</p>
+                </div>
+                <div class="box">
+                  <p class="title"><a href="info/1031/7953.htm"><span>武汉大学2026年第三批次（专项计划）博士外语综合水平考试成绩查询及复查公告</span><i class="new-icon"></i></a> </p>
+                  <p class="des"><a href="info/1031/7953.htm">各位考生： 武汉大学2026年第三批次博士外语水平考试（专项计划）现开通成绩查询，并就有关事项公告如下： 一、成绩查询网址： 武汉大学研究生招生服务平台（http://yz.whu.edu.cn）－“博士招生”。二、成绩复查考生如对成绩有疑问，可申请复查。 （一）复查范围 1.答题得分漏记、错记以及录入差错等。答卷均由指定工作人员负责查阅，其他人员不得查阅答卷。 2.评卷教师评分标准不属于复查范围。违规考生不予复查。 （二）具体安排 ...</a> </p>
+                </div>
+              </li>
+              
+</ul>
+          </div>
+        </div><script>_showDynClickBatch(['dynclicks_u3_8053','dynclicks_u3_8033','dynclicks_u3_8023','dynclicks_u3_7953'],[8053,8033,8023,7953],"wbnews", 1956703155)</script>
+</div>
+      <div class="yz-center"><div class="yz-title-box clearfix">
+          <h3 class="yz-title">信息公开</h3>
+          <i class="yz-line"></i> <a href="xxgk/ss.htm" class="yz-more">MORE</a> </div>
+        <div class="yz-list-box">
+          <div class="yz-list-txt xxgk">
+            <ul>
+              
+<li class="clearfix"> <a href="info/1021/3152.htm" class="txt">国家教育考试违规处理办法</a> <span class="time">11/08</span> </li>
+              
+<li class="clearfix"> <a href="http://www.moe.gov.cn/srcsite/A02/s5911/moe_621/201407/t20140709_171344.html" class="txt">普通高等学校招生违规行为处理暂行办法</a> <span class="time">10/13</span> </li>
+              
+<li class="clearfix"> <a href="http://www.moe.gov.cn/srcsite/A15/moe_778/s3261/202509/t20250918_1413836.html" class="txt">教育部关于印发《2026年全国硕士研究生招生工作管理规定》的通知</a> <span class="time">10/12</span> </li>
+              
+<li class="clearfix"> <a href="info/1021/3468.htm" class="txt">武汉大学2024年非全日制硕士研究生（单独考试）招生简章</a> <span class="time">10/10</span> </li>
+              
+<li class="clearfix"> <a href="info/1021/3016.htm" class="txt">武汉大学2023年“退役大学生士兵”专项计划硕士研究生复试录取公告</a> <span class="time">03/15</span> </li>
+              
+<li class="clearfix"> <a href="info/1021/3017.htm" class="txt">武汉大学2023年硕士研究生复试录取工作公告</a> <span class="time">03/13</span> </li>
+              
+<li class="clearfix"> <a href="https://gs.whu.edu.cn/info/1062/105171.htm" class="txt">武汉大学2026年接收优秀应届本科毕业生免试攻读研究生公告</a> <span class="time">09/21</span> </li>
+              
+</ul>
+          </div>
+        </div><script>_showDynClickBatch(['dynclicks_u4_3152','dynclicks_u4_7283','dynclicks_u4_6623','dynclicks_u4_3468','dynclicks_u4_3016','dynclicks_u4_3017','dynclicks_u4_7233'],[3152,7283,6623,3468,3016,3017,7233],"wbnews", 1956703155)</script>
+</div>
+      <div class="yz-right"><script language="javascript" src="/system/resource/js/openlink.js"></script><div class="yz-list-box">
+          <div class="yz-list-txt link-sys">
+            <ul>
+              
+<li class="li1"><a href="https://yz.whu.edu.cn">研究生招生服务平台</a></li>
+              
+<li class="li2"><a href="bszs/zyml.htm">博士招生目录</a></li>
+              
+<li class="li3"><a href="info/1003/1016.htm">硕士招生目录</a></li>
+              
+</ul>
+          </div>
+        </div></div>
+    </div>
+  </div>
+</div>
+<div class="yz-bg">
+  <div class="yz-contain-box">
+    <div class="yz-contain-padding">
+      <div class="yz-div-box clearfix">
+        <div class="yz-left">
+          <div class="yz-title-box clearfix">
+            <h3 class="yz-title">硕士招生</h3>
+            <i class="yz-line"></i> <a href="sszs/ptss.htm" class="yz-more" target="">MORE</a> </div>
+          <div class="yz-list-box sszs">
+            <div class="yz-tit-img">
+<a href="http://www.moe.gov.cn/srcsite/A15/moe_778/s3261/202509/t20250918_1413836.html"><span class="img" style="background: url(/__local/8/28/E3/94226FBD5CEDB4E89D29E795981_B74E7B57_A301.jpg) center center no-repeat; background-size: cover;"></span><span href="http://www.moe.gov.cn/srcsite/A15/moe_778/s3261/202509/t20250918_1413836.html" class="txt">教育部关于印发《2026年全国硕士研究生招生工作管理规定》的通知</span></a>
+
+<script>_showDynClickBatch(['dynclicks_u6_6613'],[6613],"wbnews", 1956703155)</script>
+</div>
+            <div class="yz-list-txt"><ul>
+                
+<li class="clearfix"> <span class="time">10-12</span> <a href="http://www.moe.gov.cn/srcsite/A15/moe_778/s3261/202509/t20250918_1413836.html" class="txt">教育部关于印发《2026年全国硕士研究生招生工作管理规定》的通知</a> </li>
+                
+<li class="clearfix"> <span class="time">10-13</span> <a href="https://gs.whu.edu.cn/info/1062/105721.htm" class="txt">武汉大学2026年硕士研究生招生章程</a> </li>
+                
+<li class="clearfix"> <span class="time">04-22</span> <a href="info/1003/7773.htm" class="txt">武汉大学2026年硕士研究生“立功免初试”考生复试及拟录取结果公示</a> </li>
+                
+<li class="clearfix"> <span class="time">04-16</span> <a href="info/1003/7753.htm" class="txt">武汉大学2026年统一招生平台及大类招生调剂公告</a> </li>
+                
+<li class="clearfix"> <span class="time">03-15</span> <a href="info/1003/7593.htm" class="txt">武汉大学2026年硕士研究生复试录取工作办法</a> </li>
+                
+</ul><script>_showDynClickBatch(['dynclicks_u7_6613','dynclicks_u7_7243','dynclicks_u7_7773','dynclicks_u7_7753','dynclicks_u7_7593'],[6613,7243,7773,7753,7593],"wbnews", 1956703155)</script>
+</div>
+          </div>
+        </div>
+        <div class="yz-center">
+          <div class="yz-title-box clearfix">
+            <h3 class="yz-title">博士招生</h3>
+            <i class="yz-line"></i> <a href="bszs/zsjz.htm" class="yz-more" target="">MORE</a> </div>
+          <div class="yz-list-box bszs">
+            <div class="yz-tit-img">
+<a href="info/1008/7353.htm"><span class="img" style="background: url(/__local/9/39/04/524456AFDCBF7E032421A01580D_C9E112D8_9121.jpg) center center no-repeat; background-size: cover;"></span><span href="info/1008/7353.htm" class="txt">武汉大学2026年招收攻读博士学位研究生章程</span></a>
+
+<script>_showDynClickBatch(['dynclicks_u8_7353'],[7353],"wbnews", 1956703155)</script>
+</div>
+            <div class="yz-list-txt"><ul>
+                
+<li class="clearfix"> <span class="time">06-03</span> <a href="info/1008/7963.htm" class="txt">关于公布武汉大学2026年博士研究生（对口支援专项计划）外语合格线的通知</a> </li>
+                
+<li class="clearfix"> <span class="time">06-01</span> <a href="info/1008/7943.htm" class="txt">武汉大学2026年第三批次（专项计划）博士外语综合水平考试成绩查询及复查公告</a> </li>
+                
+<li class="clearfix"> <span class="time">05-26</span> <a href="info/1008/7933.htm" class="txt">武汉大学2026年第三批次（专项计划）博士外语水平考试公告</a> </li>
+                
+<li class="clearfix"> <span class="time">05-14</span> <a href="info/1008/7923.htm" class="txt">武汉大学关于做好2026年“援疆师资博士计划”“对口支援部省合建高校计划”招生工作的通知</a> </li>
+                
+<li class="clearfix"> <span class="time">05-13</span> <a href="info/1008/7913.htm" class="txt">武汉大学2026年招收攻读博士学位研究生报名公告(第三批次普通招考)</a> </li>
+                
+</ul><script>_showDynClickBatch(['dynclicks_u9_7963','dynclicks_u9_7943','dynclicks_u9_7933','dynclicks_u9_7923','dynclicks_u9_7913'],[7963,7943,7933,7923,7913],"wbnews", 1956703155)</script>
+</div>
+          </div>
+        </div>
+        <div class="yz-right">
+          <div class="yz-title-box clearfix">
+            <h3 class="yz-title">港澳台招生</h3>
+            <i class="yz-line"></i> <a href="gatzs/zsjz.htm" class="yz-more" target="">MORE</a> </div>
+          <div class="yz-list-box gatzs">
+            <div class="yz-tit-img">
+<a href="info/1012/6873.htm"><span class="img" style="background: url(/__local/E/13/18/961BAB65D4300EEB3DB3588A296_2A683BF0_28CEC.png) center center no-repeat; background-size: cover;"></span><span href="info/1012/6873.htm" class="txt">武汉大学2025年面向香港、澳门、台湾地区 招收研究生简章</span></a>
+
+<script>_showDynClickBatch(['dynclicks_u10_6873'],[6873],"wbnews", 1956703155)</script>
+</div>
+            <div class="yz-list-txt"><ul>
+                
+<li class="clearfix"> <span class="time">05-13</span> <a href="info/1012/7813.htm" class="txt">关于做好2026年面向港澳台地区招收研究生复试录取工作的通知</a> </li>
+                
+<li class="clearfix"> <span class="time">04-17</span> <a href="info/1012/7763.htm" class="txt">武汉大学2026年港澳台研究生招生考试初试成绩查询及复核工作的通知</a> </li>
+                
+<li class="clearfix"> <span class="time">12-25</span> <a href="info/1012/7513.htm" class="txt">武汉大学2026年面向香港、澳门、台湾地区 招收研究生简章</a> </li>
+                
+<li class="clearfix"> <span class="time">05-08</span> <a href="info/1012/6963.htm" class="txt">关于做好2025年面向港澳台地区招收研究生复试录取工作的通知</a> </li>
+                
+<li class="clearfix"> <span class="time">04-28</span> <a href="info/1012/6943.htm" class="txt">武汉大学2025年港澳台研究生招生考试初试成绩查询及复核工作的通知</a> </li>
+                
+</ul><script>_showDynClickBatch(['dynclicks_u11_7813','dynclicks_u11_7763','dynclicks_u11_7513','dynclicks_u11_6963','dynclicks_u11_6943'],[7813,7763,7513,6963,6943],"wbnews", 1956703155)</script>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="yz-media-box">
+  <div class="yz-contain-box">
+    <div class="yz-contain-padding"><div class="yz-title-box clearfix">
+        <h3 class="yz-title">媒体看武大</h3>
+        <i class="yz-line"></i> <a href="http://news.whu.edu.cn/" class="yz-more">MORE</a> </div>
+      <div class="yz-media-list">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            
+<div class="swiper-slide">
+              <div class="box">
+                <p class="img"><a href="info/1033/3462.htm"><span style="background: url(/__local/0/92/B1/787D28E522B86F72A56FAC16B24_E07691A7_79DE.jpg) center center no-repeat; background-size: cover;"></span></a></p>
+                <h3 class="h3"><a href="info/1033/3462.htm">习近平总书记给武汉大学参加中国南北极科学考察队师生代表的回信</a></h3>
+              </div>
+            </div>
+            
+<div class="swiper-slide">
+              <div class="box">
+                <p class="img"><a href="https://news.whu.edu.cn/info/1013/467297.htm"><span style="background: url(/__local/0/94/17/1BDF3FE7CF392726F688A1666D5_62F2B124_745B2.jpg) center center no-repeat; background-size: cover;"></span></a></p>
+                <h3 class="h3"><a href="https://news.whu.edu.cn/info/1013/467297.htm">深化培养模式改革 打造卓越研究生教育</a></h3>
+              </div>
+            </div>
+            
+<div class="swiper-slide">
+              <div class="box">
+                <p class="img"><a href="http://news.whu.edu.cn/info/1002/459617.htm"><span style="background: url(/__local/7/27/8F/FED675C69FDC8CFC36D71A34113_A9C4CE2E_13811.jpg) center center no-repeat; background-size: cover;"></span></a></p>
+                <h3 class="h3"><a href="http://news.whu.edu.cn/info/1002/459617.htm">李德仁院士获2023年度国家最高科学技术奖</a></h3>
+              </div>
+            </div>
+            
+<div class="swiper-slide">
+              <div class="box">
+                <p class="img"><a href="http://news.whu.edu.cn/info/1015/461707.htm"><span style="background: url(/__local/9/E8/13/11466B0B2DC46D0B363F7579EFB_7E470AB9_62A26.jpg) center center no-repeat; background-size: cover;"></span></a></p>
+                <h3 class="h3"><a href="http://news.whu.edu.cn/info/1015/461707.htm">高恩来课题组与合作者在Science发表高动态强度纤维研究成果</a></h3>
+              </div>
+            </div>
+            
+<div class="swiper-slide">
+              <div class="box">
+                <p class="img"><a href="http://news.whu.edu.cn/info/1002/459617.htm"><span style="background: url(/__local/3/38/33/D9D0A84161FF601614640759A97_6695B394_4DD77.jpg?e=.jpg) center center no-repeat; background-size: cover;"></span></a></p>
+                <h3 class="h3"><a href="http://news.whu.edu.cn/info/1002/459617.htm">珞珈三号02星成功发射入轨-武汉大学新闻网</a></h3>
+              </div>
+            </div>
+            
+</div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div><script>_showDynClickBatch(['dynclicks_u12_3462','dynclicks_u12_6653','dynclicks_u12_6493','dynclicks_u12_6513','dynclicks_u12_6213'],[3462,6653,6493,6513,6213],"wbnews", 1956703155)</script>
+</div>
+  </div>
+</div>
+<div class="yz-footer-box">
+  <div class="yz-contain-box">
+    <div class="yz-contain-padding">
+      <div class="yz-footer-warp clearfix">
+        <div class="yz-link-list">
+          <div class="yz-link"><ul class="clearfix">
+              
+<li><a href="https://www.whu.edu.cn/index.htm" target="_blank">武汉大学</a></li>
+              
+<li><a href="https://gs.whu.edu.cn/index.htm" target="_blank">武汉大学研究生院</a></li>
+              
+<li><a href="https://yz.chsi.com.cn/" target="_blank">中国研究生招生信息网</a></li>
+              
+<li><a href="http://www.moe.gov.cn/" target="_blank">教育部</a></li>
+              
+</ul></div>
+        </div>
+      </div>
+      <div class="yz-copyright">
+        <p>Copyright © 2023 武汉大学研究生院</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="yz-layer-box">
+  <ul class="yz-layer-nav">    <li><a <a href="index.htm">首页</a>
+    </li>
+    <li><a <a href="sszs/ptss.htm">硕士招生</a>
+      <ul class="yz-layer-suNnav">
+         <li><a href="sszs/ptss.htm">普通硕士</a></li>
+         <li><a href="sszs/tms.htm">推免生</a></li>
+         <li><a href="sszs/xly.htm">夏令营</a></li>
+         <li><a href="sszs/zsdt.htm">招生动态</a></li>
+      </ul>
+    </li>
+    <li><a <a href="bszs/zsjz.htm">博士招生</a>
+      <ul class="yz-layer-suNnav">
+         <li><a href="bszs/zsjz.htm">招生简章</a></li>
+         <li><a href="bszs/zyml.htm">专业目录</a></li>
+         <li><a href="bszs/zsdt.htm">招生动态</a></li>
+      </ul>
+    </li>
+    <li><a <a href="gatzs/zsjz.htm">港澳台招生</a>
+      <ul class="yz-layer-suNnav">
+         <li><a href="gatzs/zsjz.htm">招生简章</a></li>
+         <li><a href="gatzs/zyml.htm">专业目录</a></li>
+         <li><a href="gatzs/zsdt.htm">招生动态</a></li>
+      </ul>
+    </li>
+    <li><a <a href="https://www.whu.edu.cn/kxyj/kyjg.htm" target="_blank" href="xxzy/pthxm.htm">学校资源</a>
+      <ul class="yz-layer-suNnav">
+         <li><a href="https://www.whu.edu.cn/kxyj/kyjg.htm" target="_blank" href="xxzy/pthxm.htm">平台和项目</a></li>
+         <li><a href="https://ygb.whu.edu.cn/jlzz.htm" target="_blank" href="xxzy/jzxj.htm">奖助学金</a></li>
+         <li><a href="http://openir.whu.edu.cn/Home" target="_blank" href="xxzy/dsfc.htm">导师风采</a></li>
+         <li><a href="https://oir.whu.edu.cn/" target="_blank" href="xxzy/gjjl.htm">国际交流</a></li>
+      </ul>
+    </li>
+    <li><a <a href="xxgk/ss.htm">信息公开</a>
+      <ul class="yz-layer-suNnav">
+         <li><a href="xxgk/ss.htm">硕士</a></li>
+         <li><a href="xxgk/bs.htm">博士</a></li>
+         <li><a href="xxgk/gat.htm">港澳台</a></li>
+      </ul>
+    </li>
+    <li><a <a href="lnxx/blb.htm">历年信息</a>
+      <ul class="yz-layer-suNnav">
+         <li><a href="lnxx/blb.htm">报录比</a></li>
+         <li><a href="lnxx/fsfsx.htm">复试分数线</a></li>
+         <li><a href="lnxx/qt.htm">其他</a></li>
+      </ul>
+    </li>
+    <li><a <a href="lxwm/lxzb.htm">联系我们</a>
+      <ul class="yz-layer-suNnav">
+         <li><a href="lxwm/lxzb.htm">联系招办</a></li>
+         <li><a href="lxwm/lxxy.htm">联系学院</a></li>
+      </ul>
+    </li>
+    <li><a <a href="tzgg.htm">通知公告</a>
+    </li>
+    <li><a <a href="mtkwd.htm">媒体看武大</a>
+    </li>
+</ul>
+  <div class="yz-layer-search"><!-- 3.1.3版本 -->
+
+
+
+<style>
+    #appu15 .qwss{
+        height: 31px;
+        font-size: 12px;
+        min-width: 190px;
+        max-width: 600px;
+        width: 60%;
+        margin-top: -15px;
+        outline: none;
+        padding-left: 10px;
+        border-radius: 2px;
+        border: 1px solid #e4e7ed;}
+    #appu15 .tj{
+        padding-left: 6px;
+        letter-spacing: 5px;
+        color: white;
+        min-width: 53px;
+        max-width: 150px;
+        height: 32px;
+        border: 0;
+        border-radius: 2px;
+        background-color: #1890FF;
+        position: relative;
+        top: 1px;
+        width: 20%;
+        margin-top: -15px;}
+</style>
+<div id="divu15"></div>
+<script type="text/html" id="htmlu15">
+    <div id="appu15">
+        <div v-if="!isError">
+            <input type="text" class="yz-layer-txt"  placeholder="全文搜索" autocomplete=off  v-model=query.keyWord @keyup.enter="onSubmit" >
+            <input class="yz-layer-btn" name="submit_button" type="button" value="搜索" v-on:click="onSubmit()"/>
+        </div>
+        <div v-if="isError" style="color: #b30216; font-size:18px;text-align: center;padding:20px;">
+            应用维护中！
+        </div>
+    </div>
+</script>
+<script>
+    $("#divu15").html($("#htmlu15").text());
+</script>
+<script>
+    var appOwner = "1956703155";
+    var token = 'tourist';
+    var urlPrefix = "/aop_component/";
+    jQuery.support.cors = true;
+
+    $.ajaxSetup({
+        beforeSend:function(request, settings) {
+            request.setRequestHeader("Authorization", token);
+            request.setRequestHeader("owner", appOwner);
+        }
+    });
+
+    new Vue({
+        el: "#appu15",
+        data: function() {
+            return {
+                query:{
+                    keyWord:"",
+                    owner:appOwner,
+                    token:token,
+                    urlPrefix:urlPrefix,
+                },
+                isError: false
+            }
+        },
+        mounted: function() {
+            var _this = this;
+            // _this.init();
+        },
+        methods:{
+            init: function(){
+                $.ajax({
+                    url: "/aop_component//webber/search/test",
+                    type:"get",
+                    success: function(response){
+                        if(response.code=="0000"){
+                        }else if(response.code =="220"){
+                            _this.isError = true;
+                            console.log(response);
+                        }else if(!response.code){
+                            _this.isError = true;
+                            console.log(response);
+                        }
+                    },
+                    error: function(response){
+                        _this.isError = true;
+                    }
+                });
+            },
+            onSubmit:function(e){
+                var _this = this;
+                var query = _this.query;
+                if(query.keyWord){
+                    query["fields"] = _this.fields;
+                    var query=new Base64().encode(JSON.stringify(query));
+                    if("/system/resource/code/notemp.jsp?owner=1956703155&wbtreeid=1001&tempname=%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E9%A1%B5&notuse=notuse".indexOf("?") != -1){
+                        window.location.href="/system/resource/code/notemp.jsp?owner=1956703155&wbtreeid=1001&tempname=%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E9%A1%B5&notuse=notuse&query=" + query;
+                    }else{
+                        window.location.href="/system/resource/code/notemp.jsp?owner=1956703155&wbtreeid=1001&tempname=%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E9%A1%B5&notuse=notuse?query=" + query;
+                    }
+                }else{alert("请填写搜索内容")}
+            },
+
+        }
+    })
+</script>
+
+<script>
+    var appElementu15 = document.querySelector("#appu15");
+    if(appElementu15 && appElementu15.__vue__) {
+     
+    } else {
+      $("#divu15").html($("#htmlu15").text());
+      var appOwner = "1956703155";
+      var ifLogin="";
+      var token = ifLogin=='true'?gettoken(10, true).trim():'tourist';
+      if (containsHtmlTags(token) || !token) {
+         token = 'tourist';
+      }
+      var urlPrefix = "/aop_component/";
+      jQuery.support.cors = true;
+
+      $.ajaxSetup({
+        beforeSend:function(request, settings) {
+            request.setRequestHeader("Authorization", token);
+            request.setRequestHeader("owner", appOwner);
+        }
+      });
+      var queryInfo = {
+        query:{
+            keyWord:"",
+            owner:appOwner,
+            token:token,
+            urlPrefix:urlPrefix,
+        },
+        isError: false
+      };
+
+      function keyUpFun(e){
+        var theEvent = e || window.event;
+        var keyCode = theEvent.keyCode || theEvent.which || theEvent.charCode;
+        if(keyCode == 13){
+        onSubmitu15();
+        }
+      };   
+      
+      function onSubmitu15(){ 
+       queryInfo.query.keyWord= $(".qwss").val();           
+        var query = queryInfo.query;
+        if(query.keyWord){           
+            var query=new Base64().encode(JSON.stringify(query));
+            if("/system/resource/code/notemp.jsp?owner=1956703155&wbtreeid=1001&tempname=%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E9%A1%B5&notuse=notuse".indexOf("?") != -1){
+                window.location.href="/system/resource/code/notemp.jsp?owner=1956703155&wbtreeid=1001&tempname=%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E9%A1%B5&notuse=notuse&query=" + query;
+            }else{
+                window.location.href="/system/resource/code/notemp.jsp?owner=1956703155&wbtreeid=1001&tempname=%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E9%A1%B5&notuse=notuse?query=" + query;
+            }
+        }else{
+          alert("请填写搜索内容");
+          return;
+        }
+      };
+    }       
+</script></div>
+</div>
+<script type="text/javascript" src="js/jquery.min.js"></script> 
+<script type="text/javascript" src="js/main.js"></script> 
+<script type="text/javascript" src="js/swiper.min.js"></script> 
+<script type="text/javascript">
+var swiperBanner = new Swiper(".yz-banner .mySwiper", {
+      speed:600,
+      centeredSlides: true,
+      autoplay: {
+        delay: 4500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.yz-banner .swiper-pagination',
+        clickable: true,
+      },
+});
+
+var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 4,
+      spaceBetween: 37,
+      slidesPerGroup: 3,
+      //loop: true,
+      //loopFillGroupWithBlank: true,
+      speed:3000,
+      autoplay: {
+        delay: 6000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.yz-media-list .swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.yz-media-list .swiper-button-next',
+        prevEl: '.yz-media-list .swiper-button-prev',
+      },
+      breakpoints: {
+                        1300: {
+                            slidesPerView: 4,
+                            spaceBetween: 12,
+                        },
+
+                        
+                        1000: {
+                            slidesPerView: 3,
+                            spaceBetween: 12,
+                        },
+                       
+                        600: {
+                            slidesPerView: 2,
+                            spaceBetween: 5,
+                        },
+                        
+                    }
+    });
+</script>
+</body>
+</html>
