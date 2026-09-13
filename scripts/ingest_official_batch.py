@@ -1,10 +1,12 @@
-"""真实数据批次导入（统一脚本，v0.4）。
+"""真实数据批次导入（统一脚本，v0.5）。
 
 v0.3：北京大学 / 清华大学 / 复旦大学 / 上海交通大学 / 南京大学 /
 东南大学 / 华东师范大学，2024-2026 官方复试分数线 181 条。
 v0.4 追加：上海财经大学 / 浙江工业大学 / 浙江理工大学 / 武汉大学 /
 南京理工大学，按各校官方公布口径核录（官方未公布的年份/专业不建行）。
-与既有试点 61 条同库，官方数据累计约 319 条。
+v0.5 追加：华东政法大学（法律硕士管理中心口径 035101/035102 三年 6 条；
+法学学硕按二级学科分别划线，专业库暂无二级学科，不映射不建行）。
+与既有试点 61 条同库，官方数据累计 348 条 / 125 组合 / 18 校。
 
 口径：只录官方公开可核实字段；官方未公布即不建行或标“暂无”。
 用法：python scripts/ingest_official_batch.py
@@ -31,7 +33,7 @@ sys.path.insert(0, str(BACKEND))
 # 自划线院校：使用 self_line（学校复试基本线）；非自划线：使用 college_line。
 SELF_DRAW_CODES = {"10001", "10003", "10246", "10248", "10284", "10286", "10335", "10486"}
 # 按“分专业/分培养单位”公布复试线的院校（非自划线口径，写 college_line）
-PER_MAJOR_SCHOOLS = {"10269", "10337", "10338", "10288", "10272", "10293", "10701"}
+PER_MAJOR_SCHOOLS = {"10269", "10337", "10338", "10288", "10272", "10293", "10701", "10276"}
 
 # 每所院校：major -> [2024, 2025, 2026 总分线]（None 表示当年官方未按该口径单列，不建行）
 LINES = {
@@ -165,6 +167,10 @@ LINES = {
     "10701": {  # 西安电子科技大学（仅追加通信工程学院 081000；计算机学院组合沿用试点批次）
         "081000": [None, None, 345],
     },
+    "10276": {  # 华东政法大学（法律硕士管理中心口径；法学学硕按二级学科分别划线暂不映射）
+        "035101": [340, 329, 334],
+        "035102": [361, 325, 346],
+    },
 }
 
 # 这些院校在既有批次中已有官方组合，本脚本只做追加、不改动/归档其存量组合。
@@ -232,7 +238,32 @@ FACULTIES = {
     "10701": {
         "081000": "通信工程学院",
     },
+    "10276": {
+        "035101": "法律硕士管理中心",
+        "035102": "法律硕士管理中心",
+    },
 }
+
+# 需要补建的专业（专业库扩展；经管理后台 major 导入，幂等）。
+MAJORS_EXTRA = [
+    {
+        "code": "035101",
+        "name": "法律（非法学）",
+        "discipline_gate": "法学",
+        "discipline_level1": "法律",
+        "degree_type": "专硕",
+        "is_cross_allowed": True,
+    },
+    {
+        "code": "035102",
+        "name": "法律（法学）",
+        "discipline_gate": "法学",
+        "discipline_level1": "法律",
+        "degree_type": "专硕",
+        "is_cross_allowed": False,
+        "cross_condition": "要求法学本科背景（法学第二学士学位等以当年招生简章为准）",
+    },
+]
 
 # 官方报考录取明细（(院校, 专业, 年份) -> 字段），仅在有官方公开数据时填写。
 DETAILS = {
@@ -436,6 +467,20 @@ SOURCES = {
             "url": "https://ste.xidian.edu.cn/info/1337/14876.htm",
         },
     },
+    "10276": {
+        2024: {
+            "name": "华东政法大学研究生院（2024年复试基本要求PDF）",
+            "url": "https://gs.ecupl.edu.cn/2024/0319/c13332a212842/page.htm",
+        },
+        2025: {
+            "name": "华东政法大学研究生院",
+            "url": "https://gs.ecupl.edu.cn/2025/0320/c13332a219282/page.htm",
+        },
+        2026: {
+            "name": "华东政法大学研究生院",
+            "url": "https://gs.ecupl.edu.cn/2026/0324/c13332a225131/page.htm",
+        },
+    },
 }
 
 NAMES = {
@@ -453,6 +498,7 @@ NAMES = {
     "10288": "南京理工大学",
     "10293": "南京邮电大学",
     "10701": "西安电子科技大学",
+    "10276": "华东政法大学",
 }
 
 MAJOR_NAMES = {
@@ -465,6 +511,8 @@ MAJOR_NAMES = {
     "025100": "金融(专硕)",
     "040100": "教育学(学硕)",
     "030100": "法学(学硕)",
+    "035101": "法律（非法学）(专硕)",
+    "035102": "法律（法学）(专硕)",
 }
 
 
@@ -498,6 +546,20 @@ def build_institution_major_csv() -> bytes:
                 "faculty_name": faculty,
             }
         )
+    return _csv_payload(rows)
+
+
+def build_major_csv() -> bytes:
+    fields = [
+        "code",
+        "name",
+        "discipline_gate",
+        "discipline_level1",
+        "degree_type",
+        "is_cross_allowed",
+        "cross_condition",
+    ]
+    rows = [{field: item.get(field, "") for field in fields} for item in MAJORS_EXTRA]
     return _csv_payload(rows)
 
 
@@ -729,6 +791,14 @@ def main() -> int:
     official_codes = set(LINES) - EXEMPT_SCHOOLS
 
     with TestClient(app) as client:
+        resp = client.post(
+            "/api/v1/admin/import",
+            data={"entity_type": "major"},
+            files={"file": ("majors.csv", build_major_csv(), "text/csv")},
+        )
+        print("IMPORT major:", resp.status_code, resp.json())
+        assert resp.status_code == 200
+
         session = SessionLocal()
         try:
             targets = (
@@ -764,7 +834,7 @@ def main() -> int:
         print("IMPORT admission_stat:", resp.status_code, body)
         assert resp.status_code == 200
         assert body.get("errors", []) == []
-        assert body.get("created", 0) == total
+        assert body.get("created", 0) + body.get("updated", 0) == total
 
         pending = client.get(
             "/api/v1/admin/admission-stats",
@@ -797,6 +867,7 @@ def main() -> int:
             ("武汉大学", 2026, 7),
             ("南京邮电大学", 2026, 5),
             ("西安电子科技大学", 2026, 1),
+            ("华东政法大学", 2026, 2),
         ]:
             resp = client.get(
                 "/api/v1/institution-majors",
@@ -829,7 +900,7 @@ def main() -> int:
 
     append_fact_sheets()
     print("fact sheets appended")
-    print("OK：真实数据批次 v0.4 导入与审核完成。")
+    print("OK：真实数据批次导入与审核完成（累计 348 条 / 125 组合 / 18 校）。")
     return 0
 
 

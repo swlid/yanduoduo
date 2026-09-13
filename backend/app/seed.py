@@ -59,6 +59,8 @@ MAJORS: list[dict[str, Any]] = [
     {"id": "major-008", "code": "025100", "name": "金融", "discipline_gate": "经济学", "discipline_level1": "金融", "degree_type": "专硕", "is_cross_allowed": True},
     {"id": "major-009", "code": "040100", "name": "教育学", "discipline_gate": "教育学", "discipline_level1": "教育学", "degree_type": "学硕", "is_cross_allowed": True},
     {"id": "major-010", "code": "030100", "name": "法学", "discipline_gate": "法学", "discipline_level1": "法学", "degree_type": "学硕", "is_cross_allowed": False, "cross_condition": "部分院校要求法学本科背景"},
+    {"id": "major-011", "code": "035101", "name": "法律（非法学）", "discipline_gate": "法学", "discipline_level1": "法律", "degree_type": "专硕", "is_cross_allowed": True},
+    {"id": "major-012", "code": "035102", "name": "法律（法学）", "discipline_gate": "法学", "discipline_level1": "法律", "degree_type": "专硕", "is_cross_allowed": False, "cross_condition": "要求法学本科背景（法学第二学士学位等以当年招生简章为准）"},
 ]
 
 
