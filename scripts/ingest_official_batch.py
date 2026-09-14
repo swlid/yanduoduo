@@ -775,6 +775,47 @@ def append_fact_sheets() -> None:
                 )
 
 
+def archive_mock_rows_in_official_combos() -> int:
+    """数据卫生规则：组合一旦有官方数据，该组合内 mock 行一律归档（公开接口不再展示）。
+
+    归档方式：review_status 置为 archived（公开接口仅返回 approved 行），
+    reviewed_by 标记 mock-archived-by-official，可重复执行（幂等）。
+    """
+    from app.db import SessionLocal
+    from app.models import AdmissionStat, Institution, InstitutionMajor
+
+    session = SessionLocal()
+    archived = 0
+    try:
+        targets = (
+            session.query(InstitutionMajor)
+            .join(Institution)
+            .filter(Institution.code.in_(set(LINES)))
+            .all()
+        )
+        pairs = set(all_combos())
+        for im in targets:
+            if (im.institution.code, im.major.code) not in pairs:
+                continue
+            rows = (
+                session.query(AdmissionStat)
+                .filter(
+                    AdmissionStat.institution_major_id == im.id,
+                    AdmissionStat.data_quality == "mock",
+                    AdmissionStat.review_status == "approved",
+                )
+                .all()
+            )
+            for row in rows:
+                row.review_status = "archived"
+                row.reviewed_by = "mock-archived-by-official"
+                archived += 1
+        session.commit()
+    finally:
+        session.close()
+    return archived
+
+
 def main() -> int:
     total = expected_stat_count()
     print(f"增量导入（保留既有批次数据）：{DB_FILE}，本批可核官方招录行：{total}")
@@ -849,6 +890,9 @@ def main() -> int:
             )
             assert review.status_code == 200
         print(f"REVIEW approved: {total} 条")
+
+        archived_mock = archive_mock_rows_in_official_combos()
+        print(f"MOCK ARCHIVED（组合已有官方数据，组内 mock 行归档）: {archived_mock} 条")
 
         # 公开接口抽查：每校 2026 至少能查回官方数据
         for keyword, year, expected in [
