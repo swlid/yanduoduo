@@ -1,0 +1,35 @@
+﻿school_name,yz_url,reachability,fetch_strategy
+北京大学,https://admission.pku.edu.cn/,可达(200),"WebFetch 处理,公告分类 index.tsz"
+中国人民大学,https://yz.ruc.edu.cn/,沙箱不可达,需 WebFetch
+北京航空航天大学,https://yzb.buaa.edu.cn/,可达(200),WebFetch
+北京理工大学,https://yz.bit.edu.cn/,可达(200),WebFetch 找复试线入口
+中国农业大学,https://yz.cau.edu.cn/,可达(420 拦截),需 WebFetch
+北京师范大学,https://yz.bnu.edu.cn/,可达(200),WebFetch
+南开大学,https://yzb.nankai.edu.cn/,可达(200),WebFetch
+天津大学,https://yzb.tju.edu.cn/,可达(200),WebFetch
+大连理工大学,https://gs.dlut.edu.cn/,可达(200),WebFetch
+东北大学,https://yz.neu.edu.cn/,可达(200),WebFetch
+吉林大学,https://yz.jlu.edu.cn/,沙箱不可达,需 WebFetch
+哈尔滨工业大学,https://yzb.hit.edu.cn/,可达(200),WebFetch
+复旦大学,https://gsao.fudan.edu.cn/,可达(200),WebFetch
+同济大学,https://yz.tongji.edu.cn/,可达(200),WebFetch
+上海交通大学,https://yzb.sjtu.edu.cn/,可达(200),WebFetch
+华东师范大学,https://yz.ecnu.edu.cn/,沙箱不可达,需 WebFetch
+南京大学,https://yz.nju.edu.cn/,沙箱不可达,需 WebFetch
+东南大学,https://yzs.seu.edu.cn/,沙箱不可达,需 WebFetch
+浙江大学,https://yjs.zju.edu.cn/,沙箱不可达,需 WebFetch
+中国科学技术大学,https://yz.ustc.edu.cn/,可达(200),WebFetch
+厦门大学,https://yz.xmu.edu.cn/,沙箱不可达,需 WebFetch
+山东大学,https://yz.sdu.edu.cn/,可达(200),WebFetch
+武汉大学,https://yz.whu.edu.cn/,301 重定向,需 WebFetch
+华中科技大学,https://gs.hust.edu.cn/,可达(200),WebFetch
+湖南大学,https://yjsb.hnu.edu.cn/,沙箱不可达,需 WebFetch
+中南大学,https://yz.csu.edu.cn/,可达(200),WebFetch
+中山大学,https://yz.sysu.edu.cn/,可达(200),WebFetch
+华南理工大学,https://yz.scut.edu.cn/,可达(200),WebFetch
+四川大学,https://yz.scu.edu.cn/,可达(200),WebFetch
+重庆大学,https://yz.cqu.edu.cn/,可达(200),WebFetch
+电子科技大学,https://yz.uestc.edu.cn/,可达(200),WebFetch
+西安交通大学,https://yz.xjtu.edu.cn/,可达(200),WebFetch
+西北工业大学,https://yzb.nwpu.edu.cn/,可达(200),WebFetch
+兰州大学,https://yz.lzu.edu.cn/,412 预检,需 WebFetch
