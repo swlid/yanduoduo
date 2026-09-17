@@ -1,0 +1,98 @@
+.filters {
+  margin-bottom: 20rpx;
+}
+
+.filter-input {
+  height: 72rpx;
+  padding: 0 20rpx;
+  background: #f8fafc;
+  border-radius: 14rpx;
+  margin-bottom: 16rpx;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.picker {
+  height: 72rpx;
+  line-height: 72rpx;
+  padding: 0 20rpx;
+  background: #f8fafc;
+  border-radius: 14rpx;
+  color: #1f2937;
+}
+
+.switch-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.switch-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fafc;
+  border-radius: 14rpx;
+  padding: 0 16rpx;
+  height: 72rpx;
+  font-size: 24rpx;
+  color: #374151;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.sort-picker {
+  flex: 2;
+}
+
+.filter-actions button {
+  flex: 1;
+}
+
+.hint {
+  margin-top: 14rpx;
+  font-size: 22rpx;
+}
+
+.quick {
+  margin-bottom: 20rpx;
+}
+
+.mini-btn {
+  height: 64rpx;
+  line-height: 64rpx;
+  font-size: 24rpx;
+}
+
+.item {
+  margin-bottom: 20rpx;
+}
+
+.item-title {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.badges {
+  margin: 16rpx 0 10rpx;
+}
+
+.state {
+  text-align: center;
+  padding: 60rpx 0;
+}
+
+.retry-btn {
+  margin-top: 20rpx;
+}

@@ -1,0 +1,69 @@
+<view class="page" wx:if="{{overview}}">
+  <view class="card head">
+    <view class="title">{{overview.name}}</view>
+    <view class="badges">
+      <text class="badge">{{overview.level}}</text>
+      <text class="badge">{{regionText}}</text>
+      <text class="badge badge-danger" wx:if="{{overview.is_self_draw}}">自划线</text>
+    </view>
+    <view class="row"><text class="label">院校代码</text><text>{{overview.code}}</text></view>
+    <view class="row"><text class="label">官方链接</text><text class="link" bindtap="copyUrl">{{overview.official_url ? '复制链接' : '暂无'}}</text></view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">数据概览</view>
+    <view class="metrics">
+      <view class="metric">
+        <text class="metric-num">{{overview.combo_count}}</text>
+        <text class="muted">专业组合</text>
+      </view>
+      <view class="metric">
+        <text class="metric-num">{{overview.official_combo_count}}</text>
+        <text class="muted">官方数据专业</text>
+      </view>
+      <view class="metric">
+        <text class="metric-num">{{yearsText}}</text>
+        <text class="muted">覆盖年份</text>
+      </view>
+    </view>
+    <view class="muted">最近数据更新时间：{{updatedText}}</view>
+    <view class="empty muted" wx:if="{{!overview.has_official_data}}">
+      该校暂无可展示的招录数据，我们正在补充，可先关注；下方如有"示例数据"仅为功能演示。
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">该校专业组合（{{comboTotal}}）</view>
+    <view class="muted combo-year">展示年份：{{year}}</view>
+
+    <view class="combo" wx:for="{{combos}}" wx:key="id" bindtap="goCombo" data-id="{{item.id}}">
+      <view class="combo-head">
+        <view class="combo-title">{{item.major.name}}</view>
+        <button class="mini-btn" catchtap="toggleCompare" data-id="{{item.id}}">对比</button>
+      </view>
+      <view class="badges">
+        <text class="badge">{{item.major.degree_type}}</text>
+        <text class="badge">{{item.faculty_name}}</text>
+        <text class="badge {{item.qualityClass}}">{{item.qualityText}}</text>
+      </view>
+      <view class="metrics">
+        <view class="metric"><text class="muted">平均分</text><text class="metric-num">{{item.avgScore}}</text></view>
+        <view class="metric"><text class="muted">报录比</text><text class="metric-num">{{item.reportRate}}</text></view>
+        <view class="metric"><text class="muted">院线</text><text class="metric-num">{{item.collegeLine}}</text></view>
+      </view>
+    </view>
+
+    <view class="empty muted" wx:if="{{!combos.length}}">该校暂无可展示的院校专业组合</view>
+  </view>
+
+  <view class="compare-bar" wx:if="{{compareCount}}">
+    <text>已选 {{compareCount}} 个</text>
+    <button class="primary-btn bar-btn" bindtap="goCompare">去对比</button>
+  </view>
+</view>
+
+<view class="page muted" wx:elif="{{loading}}">加载中...</view>
+<view class="page muted" wx:else>
+  加载失败
+  <button class="secondary-btn retry-btn" bindtap="retry">重新加载</button>
+</view>

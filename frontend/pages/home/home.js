@@ -40,8 +40,12 @@ Page({
     }
   },
 
+  goInstitution() {
+    wx.switchTab({ url: "/pages/institution/institution" });
+  },
+
   goList() {
-    wx.switchTab({ url: "/pages/list/list" });
+    wx.navigateTo({ url: "/pages/list/list" });
   },
 
   goAssess() {

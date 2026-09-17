@@ -1,7 +1,9 @@
 {
   "pages": [
     "pages/home/home",
+    "pages/institution/institution",
     "pages/list/list",
+    "pages/institution-detail/institution-detail",
     "pages/assess/assess",
     "pages/plan/plan",
     "pages/checkin/checkin",
@@ -27,7 +29,7 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/list/list",
+        "pagePath": "pages/institution/institution",
         "text": "院校库"
       }
     ]

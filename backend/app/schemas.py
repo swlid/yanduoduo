@@ -28,6 +28,36 @@ class InstitutionOut(ORMModel):
     status: str
 
 
+class InstitutionListItemOut(InstitutionOut):
+    """院校列表项：在基础字段上补充数据可用性信息（向后兼容）。"""
+
+    combo_count: int = 0
+    official_combo_count: int = 0
+    official_years: list[int] = []
+    has_official_data: bool = False
+    latest_data_year: int | None = None
+
+
+class InstitutionOverviewOut(InstitutionListItemOut):
+    """院校详情概览。"""
+
+    latest_updated_at: datetime | None = None
+
+
+class FacetItem(BaseModel):
+    value: str
+    count: int
+
+
+class InstitutionFacetsOut(BaseModel):
+    provinces: list[FacetItem] = []
+    levels: list[FacetItem] = []
+    categories: list[FacetItem] = []
+    self_draw_count: int = 0
+    has_data_count: int = 0
+    total: int = 0
+
+
 class MajorOut(ORMModel):
     id: str
     code: str

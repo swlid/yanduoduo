@@ -62,6 +62,8 @@
 - 用户投递资料接收中（2026-09-17）：已收到 `data/imports/考研数据汇总_2026-09-17.xlsx`（7 张表，已拆分为 `data/imports/extracted/*.csv`）——① 国家线 2017-2024（212 行）② 招生单位 885 所（sch_id/省份/主管部门/双一流/研究生院/自划线，含研招网 schId 链接）③ 34 所自划线名单 ④ 清华 2025-2026 校线明细（72 行，含单科）⑤ 自划线校 URL 映射 ⑥ 学科门类 ⑦ A/B 区划。另有 7 个 WorkBuddy 分享链接（标题：`考研数据汇总`、`00_regions`、`kaoyan_schema`、`import_kaoyan_data`、`kaoyan` 等）**全部需登录才能访问，当前无法读取**。
 - 院校库扩充完成（2026-09-17）：导入全国招生单位 885 所（导入前 20 所），层次为 985 39 / 211 76 / 双一流 33 / 普通 737，自划线 34 所；原有 20 所的单位代码、城市、院校类型保留，新增院校 `code` 暂用研招网 schId（`tags.code_type=yz_sch_id`），城市与院校类型按约定记「暂无」。脚本 `scripts/ingest_institutions.py` 幂等；后端 7 项测试与 13 项验收全部通过；院校-专业组合 132、招录记录 372 未受影响；交付见 `docs/11-院校库扩充说明.md`。
 - 数据库重建流程实测通过（2026-09-17）：在项目完整副本上按 `seed → ingest_official_pilot → ingest_institutions → ingest_official_batch → ingest_national_lines` 顺序重建，结果与开发库在 9 项关键指标上逐项一致（院校 885 / 专业 12 / 组合 132 / 招录 372 / official 348 / mock 24 / 带国家线 348 / official 组合 125 / official 院校 18）；漏跑试点批次会导致 official 仅 287 条。顺序与注意事项写入 `docs/11` 第 5 节。
+- 下一阶段方向已确认（2026-09-17）：用户选择「院校库浏览闭环」（方向 A）作为下一步开发目标，开发尚未开始；范围与验收标准以本轮拟定的开发提示词为准，现状缺口盘点见第 6 节。
+- 院校库浏览闭环完成（2026-09-17）：后端 `GET /institutions` 新增 `has_data`/`sort` 与 5 个数据可用性字段（combo_count/official_combo_count/official_years/has_official_data/latest_data_year，原字段不变），新增 `GET /institutions/facets`（省份/层次/类型计数 + 自划线 34 + 有数据 18 + total 885）与 `GET /institutions/{id}/overview`（含最近更新时间，404 分支）；组合列表继续复用 `GET /institution-majors?institution_id=`。小程序新增 `pages/institution/institution`（搜索/地区/层次/只看有数据/仅自划线/排序、上拉加载 page_size=20、下拉刷新、三态）与 `pages/institution-detail/institution-detail`（信息卡 + 数据概览 + 该校组合列表 + 对比/空态），tabBar「院校库」改指院校列表页，原 `pages/list/list` 保留为「分数线查询与对比」普通页面并由首页/院校列表进入，首页 `goList` 由 switchTab 改 navigateTo。自动化：pytest 12 项、acceptance_smoke 13 项、新增 `scripts/verify_institution_browsing.py` 8 项全部通过，前端 14 个 JS（node --check）与 11 个 JSON 静态检查通过；交付见 `docs/12-院校库浏览闭环说明.md`。微信开发者工具人工验收待用户执行。
 
 | 里程碑 | 状态 |
 | --- | --- |
@@ -105,7 +107,9 @@
 - [ ] 上线工程：真实域名、HTTPS、部署与监控。
 - [ ] 持续打磨：页面样式/交互细节、补充更多端到端测试与真实场景用例。
 - [ ] 新增院校暂无分数线数据，不会出现在「院校-专业组合」查询列表；后续需补分数数据或为小程序增加院校浏览入口。
-- [ ] **下一阶段开发方向待用户确认（2026-09-17 待定）**：A) 院校库浏览闭环——小程序新增院校列表页与院校详情页，让 885 所院校可检索可浏览（后端 `/api/v1/institutions` 已支持 keyword/province/level/category/is_self_draw 筛选，仅缺前端页面与 tabBar 调整）；B) 微信登录与订阅消息推送；C) 管理后台鉴权 + Alembic 迁移 + PostgreSQL/Redis 正式联调；D) AI 择校问答与动态计划（首版预留未做）。
+- [x] 下一阶段开发方向确认（2026-09-17）：**选择方向 A「院校库浏览闭环」**——小程序新增院校列表页与院校详情页，让 885 所院校可检索、可浏览，并打通「院校 → 该校专业组合 → 组合详情/对比」路径。其余方向保留待选：B) 微信登录与订阅消息推送；C) 管理后台鉴权 + Alembic 迁移 + PostgreSQL/Redis 正式联调；D) AI 择校问答与动态计划（首版预留未做）。
+- [x] 院校库浏览闭环开发（2026-09-17 完成，见第 5 节与 `docs/12`）：后端 3 项接口增强/新增 + 小程序两个新页面 + tabBar 与首页入口调整；自动化 12/13/8 项全通过，前端 JS/JSON 静态检查通过。
+- [ ] 院校库浏览闭环的人工验收（微信开发者工具，待用户执行）：按 `docs/12` 第 4 节 5 条逐条点通并记录；另 P1「目标院校清单」（本地收藏）本次未做，保留待办。
 
 **数据质量告警（2026-09-17 核出）**：
 
@@ -139,6 +143,7 @@
 - `docs/09-全流程人工验收清单.md`：学生端与后台的人工验收步骤和预期结果。
 - `docs/10-真实数据接入说明.md`：真实数据接入说明（官方可核实 + 暂无口径），当前版本 v0.5：18 所院校/125 个官方组合/348 条官方数据的覆盖、口径、工程改动、验收记录与剩余清单；原始核录事实见 `data/official/`。
 - `docs/11-院校库扩充说明.md`：全国招生单位 885 所导入说明——来源与层次映射口径、字段映射、验证结果（自划线 34 所、985 39 所、重复 0）、运行方式与已知限制。
+- `docs/12-院校库浏览闭环说明.md`：院校库浏览闭环交付说明——后端接口变更（列表 has_data/sort + 数据可用性字段、`/facets`、`/{id}/overview`）、小程序页面结构（院校列表/院校详情/tabBar 与入口调整）、数据标识合规、验证记录、人工验收步骤与已知限制。
 
 ## 变更记录
 
@@ -176,3 +181,5 @@
 - 2026-09-17：按用户「全部入库」指示完成院校库扩充：`scripts/ingest_institutions.py` 将全国招生单位导入院校表，20 所 → **885 所**（985 39 / 211 76 / 双一流 33 / 普通 737，自划线 34 所）；新增院校 `code` 用研招网 schId 并在 tags 标记 `code_type=yz_sch_id`，城市与院校类型记「暂无」，原有 20 所代码/城市/类型保留；导入前备份 `backend/yanduoduo_dev.db.bak-20260917`；后端 7 项测试与 13 项验收全部通过，接口核对 total=885；产出 `docs/11-院校库扩充说明.md`。**决策：国家线只采用已核的 2024-2026 官方版（Excel 的 2017-2024 表仅作线索），category 统一显示「暂无」。**
 - 2026-09-17：经用户确认完成推送，`812a336..d8a8bd5` 推到 GitHub `swlid/yanduoduo` 的 `main`（经 UniClash 代理 7993），本地与远端同步至 `d8a8bd5`；工作区干净。
 - 2026-09-17：回答"幂等/重建"问题并实测重建流程（只读验证，未动开发库）：在项目副本上完整重跑 seed + 4 个导入脚本，与开发库 9 项指标逐项一致，确认现有开发库无需重建；发现并修正 `docs/11` 运行方式漏写 `ingest_official_pilot.py` 的问题，补充"国家线批次必须最后执行"的注意事项。同时锁定下一阶段候选方向（院校库浏览闭环 / 微信登录推送 / 后台鉴权与 PostgreSQL / AI 择校），等待用户选择。
+- 2026-09-17：确认下一阶段方向为「院校库浏览闭环」（用户选择方向 A），并完成开发前现状盘点：后端院校查询与院校-专业组合查询接口可直接支撑闭环（`institution-majors` 已支持 `institution_id` 过滤），缺口集中在分面计数、院校数据可用性标记、院校概览接口，以及小程序端院校列表页/院校详情页与 tabBar、入口调整；已在第 5/6 节登记方向决策与缺口清单，并据此拟定下一阶段开发提示词（含后端增强、两个新页面、验收步骤、文档与提交流程）。本次仅更新项目记忆与拟定提示词，未改动业务代码。
+- 2026-09-17：完成「院校库浏览闭环」开发：后端 `backend/app/api/institutions.py` 重写为列表增强（`has_data`/`sort`，层次按 985→211→双一流→普通 真实排序）+ `/facets` + `/{id}/overview`，`schemas.py` 新增 `InstitutionListItemOut`/`InstitutionOverviewOut`/`InstitutionFacetsOut` 等（原字段不变）；新增测试 `backend/tests/test_institutions_api.py` 5 项（列表新字段、排序、分面、概览与 404、has_data 过滤与官方指标），pytest 12 项全通过。小程序端新增 `pages/institution`（院校列表：搜索/地区/层次/只看有数据/仅自划线/排序/上拉加载/下拉刷新/三态）与 `pages/institution-detail`（信息卡+概览+该校组合列表+对比/空态），`api/index.js` 登记 `getInstitutionFacets`/`getInstitutionOverview`，`app.json` tabBar「院校库」改指院校列表并把两页加入 pages，`pages/list` 保留为「分数线查询与对比」普通话页面，首页新增院校库 tab 入口、`goList` 改 navigateTo；新增 `scripts/verify_institution_browsing.py`（8 项闭环校验）与 `docs/12-院校库浏览闭环说明.md`。验证：pytest 12 项、acceptance_smoke 13 项、浏览闭环 8 项全部通过；前端 14 个 JS `node --check`、11 个 JSON 解析全部通过；接口实测 facets total=885 / 自划线 34 / 有数据 18、has_data=false 867 所。微信开发者工具人工验收待用户执行。

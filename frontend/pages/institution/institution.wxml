@@ -1,0 +1,66 @@
+<view class="page">
+  <view class="filters card">
+    <input
+      class="filter-input"
+      placeholder="搜索校名 / 简称 / 院校代码"
+      value="{{keyword}}"
+      bindinput="onKeyword"
+      confirm-type="search"
+      bindconfirm="search"
+    />
+    <view class="filter-grid">
+      <picker range="{{provinces}}" value="{{provinceIndex}}" bindchange="onProvince">
+        <view class="picker">地区：{{provinces[provinceIndex]}}</view>
+      </picker>
+      <picker range="{{levels}}" value="{{levelIndex}}" bindchange="onLevel">
+        <view class="picker">层次：{{levels[levelIndex]}}</view>
+      </picker>
+    </view>
+    <view class="switch-row">
+      <view class="switch-item">
+        <text>只看有数据</text>
+        <switch checked="{{onlyData}}" bindchange="onOnlyData" color="#2563eb" />
+      </view>
+      <view class="switch-item">
+        <text>仅自划线</text>
+        <switch checked="{{onlySelfDraw}}" bindchange="onOnlySelfDraw" color="#2563eb" />
+      </view>
+    </view>
+    <view class="filter-actions">
+      <picker class="sort-picker" range="{{sorts}}" value="{{sortIndex}}" bindchange="onSort">
+        <view class="picker">排序：{{sorts[sortIndex]}}</view>
+      </picker>
+      <button class="primary-btn" bindtap="search">查询</button>
+      <button class="secondary-btn" bindtap="reset">重置</button>
+    </view>
+    <view class="muted hint">共 {{total}} 所招生单位 · 有官方数据 {{hasDataCount}} 所 · 自划线 {{selfDrawCount}} 所</view>
+  </view>
+
+  <view class="quick">
+    <button class="secondary-btn mini-btn" bindtap="goComboList">分数线查询 / 择校对比</button>
+  </view>
+
+  <view class="card item" wx:for="{{items}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+    <view class="item-title">{{item.name}}</view>
+    <view class="badges">
+      <text class="badge">{{item.level}}</text>
+      <text class="badge">{{item.regionText}}</text>
+      <text class="badge badge-danger" wx:if="{{item.is_self_draw}}">自划线</text>
+      <text class="badge {{item.statusClass}}">{{item.statusText}}</text>
+    </view>
+    <view class="muted">
+      院校代码 {{item.code}}
+      <text wx:if="{{item.has_official_data}}"> · 覆盖年份 {{item.yearsText}}</text>
+      <text wx:elif="{{item.latest_data_year}}"> · 最近数据 {{item.latest_data_year}}</text>
+    </view>
+  </view>
+
+  <view class="state muted" wx:if="{{loading}}">加载中...</view>
+  <view class="state muted" wx:elif="{{failed}}">
+    加载失败
+    <button class="secondary-btn retry-btn" bindtap="retry">重新加载</button>
+  </view>
+  <view class="state muted" wx:elif="{{!items.length}}">没有符合条件的院校，试试减少筛选条件</view>
+  <view class="state muted" wx:elif="{{loadingMore}}">正在加载更多...</view>
+  <view class="state muted" wx:elif="{{finished && items.length}}">已加载全部 {{total}} 所院校</view>
+</view>

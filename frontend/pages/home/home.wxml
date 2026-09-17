@@ -2,7 +2,8 @@
   <view class="hero card">
     <view class="hero-title">考研全流程，从这里开始</view>
     <view class="hero-sub muted">院校查询 · 择校参考 · 计划提醒</view>
-    <button class="primary-btn hero-btn" bindtap="goList">进入院校库</button>
+    <button class="primary-btn hero-btn" bindtap="goInstitution">进入院校库（{{counts.institutions}} 所）</button>
+    <button class="secondary-btn hero-btn" bindtap="goList">分数线查询 / 择校对比</button>
     <button class="secondary-btn hero-btn" bindtap="goAssess">智能择校测评</button>
     <button class="secondary-btn hero-btn" bindtap="goPlan">生成学习计划</button>
     <button class="secondary-btn hero-btn" bindtap="goCheckin">今日打卡</button>

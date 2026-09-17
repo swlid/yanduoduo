@@ -8,6 +8,14 @@ function getInstitution(id) {
   return request.get(`/institutions/${id}`);
 }
 
+function getInstitutionFacets() {
+  return request.get("/institutions/facets");
+}
+
+function getInstitutionOverview(id) {
+  return request.get(`/institutions/${id}/overview`);
+}
+
 function getMajors(params) {
   return request.get("/majors", params);
 }
@@ -87,6 +95,8 @@ function getUpcomingReminders(params) {
 module.exports = {
   getInstitutions,
   getInstitution,
+  getInstitutionFacets,
+  getInstitutionOverview,
   getMajors,
   getMajor,
   getInstitutionMajors,
