@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 .env
 *.db
+*.db.bak-*
 .pytest_cache/
 .mypy_cache/
 node_modules/
